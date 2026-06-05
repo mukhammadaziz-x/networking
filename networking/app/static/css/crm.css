@@ -1,0 +1,300 @@
+/* ClothCRM CSS Design System Override */
+
+/* Variables */
+:root {
+    --primary-color: #ca1515;       /* Red accent */
+    --primary-hover: #a80f0f;       /* Darker red for hover */
+    --dark-bg: #111111;             /* Sidebar navigation background */
+    --darker-bg: #0d0d0d;           /* Even darker bg if needed */
+    --text-primary: #444444;        /* Dark gray text */
+    --text-secondary: #666666;      /* Medium gray text */
+    --text-muted: #888888;          /* Light gray text */
+    --light-bg-1: #f5f5f5;          /* General background */
+    --light-bg-2: #f2f2f2;          /* Secondary panels background */
+    --white: #ffffff;
+    --border-color: #e5e5e5;
+    --sidebar-width: 260px;
+    --topbar-height: 70px;
+    --border-radius: 4px;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--light-bg-1);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--dark-bg);
+}
+
+p, span, td, th, label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+/* Layout Wrapper */
+.app-wrapper {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Sidebar Styling */
+#sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    height: 100%;
+    background-color: var(--dark-bg);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    border-bottom: 1px solid #222222;
+}
+
+#sidebar .logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+    color: var(--white);
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#sidebar .logo-accent {
+    font-family: 'Cookie', cursive;
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    text-transform: none;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+#sidebar .sidebar-menu {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem 0;
+}
+
+#sidebar .nav-link {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-left: 4px solid transparent;
+    transition: all 0.2s ease;
+}
+
+#sidebar .nav-link i {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+#sidebar .nav-link:hover {
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+#sidebar .nav-link.active {
+    color: var(--white);
+    background-color: rgba(202, 21, 21, 0.15);
+    border-left-color: var(--primary-color);
+}
+
+#sidebar .sidebar-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #222222;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Main Content Area */
+#main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Topbar Styling */
+.topbar {
+    height: var(--topbar-height);
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    flex-shrink: 0;
+}
+
+.topbar .page-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.topbar .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.topbar .user-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.topbar .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--light-bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--primary-color);
+    border: 2px solid var(--border-color);
+}
+
+/* Page Content Body */
+.content-body {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    background-color: var(--light-bg-1);
+}
+
+/* Custom Card Component */
+.card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Custom Overrides for Buttons */
+.btn {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+    color: var(--white) !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--white) !important;
+}
+
+/* Custom Alerts */
+.alert {
+    border-radius: var(--border-radius);
+    border: none;
+    font-size: 0.9rem;
+    padding: 1rem 1.5rem;
+}
+
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border-left: 4px solid #0f5132;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border-left: 4px solid #842029;
+}
+
+/* Custom Scrollbar for Sidebar and main content */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+#sidebar ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
