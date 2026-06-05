@@ -1,1 +1,1 @@
-from . import auth, users, companies, contacts, products
+from . import auth, users, companies, contacts, products, deals, orders

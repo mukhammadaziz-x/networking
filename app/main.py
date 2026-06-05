@@ -11,7 +11,7 @@ from app.auth.dependencies import (
     get_current_user
 )
 from app.models.user import User
-from app.routers import auth, users, companies, contacts, products
+from app.routers import auth, users, companies, contacts, products, deals, orders
 
 # Create FastAPI application
 app = FastAPI(
@@ -56,6 +56,8 @@ app.include_router(users.router)
 app.include_router(companies.router)
 app.include_router(contacts.router)
 app.include_router(products.router)
+app.include_router(deals.router)
+app.include_router(orders.router)
 
 
 @app.get("/health", response_class=JSONResponse)

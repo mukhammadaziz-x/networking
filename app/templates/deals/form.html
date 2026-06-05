@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if deal %}Edit Deal - {{ deal.title }}{% else %}Add New Deal{% endif %} - ClothCRM
+{% endblock %}
+
+{% block page_title %}
+    {% if deal %}Edit Deal{% else %}Add Deal{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/deals" class="text-decoration-none">Pipeline</a></li>
+                {% if deal %}
+                    <li class="breadcrumb-item active" aria-current="page">Edit Opportunity</li>
+                {% else %}
+                    <li class="breadcrumb-item active" aria-current="page">Add Opportunity</li>
+                {% endif %}
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                {% if deal %}Modify Opportunity Details{% else %}New Opportunity{% endif %}
+            </div>
+            <div class="card-body">
+                <form action="{% if deal %}/deals/{{ deal.id }}/edit{% else %}/deals/create{% endif %}" method="POST">
+                    
+                    <div class="mb-3">
+                        <label for="title" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Opportunity Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Acme Bulk Cotton Order Q3" value="{{ deal.title if deal else '' }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="company_id" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Associated Company *</label>
+                        <select class="form-select" id="company_id" name="company_id" required>
+                            <option value="" disabled {% if not deal and not preselected_company_id %}selected{% endif %}>Select Account...</option>
+                            {% for company in companies %}
+                                <option value="{{ company.id }}"
+                                    {% if deal and deal.company_id == company.id %}
+                                        selected
+                                    {% elif not deal and preselected_company_id and preselected_company_id|int == company.id %}
+                                        selected
+                                    {% endif %}>
+                                    {{ company.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contact_id" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Associated Contact</label>
+                        <select class="form-select" id="contact_id" name="contact_id">
+                            <option value="">No Contact Linked</option>
+                            {% for contact in contacts %}
+                                <option value="{{ contact.id }}"
+                                    {% if deal and deal.contact_id == contact.id %}
+                                        selected
+                                    {% elif not deal and preselected_contact_id and preselected_contact_id|int == contact.id %}
+                                        selected
+                                    {% endif %}>
+                                    {{ contact.first_name }} {{ contact.last_name }} ({{ contact.company.name }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="stage" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Pipeline Stage *</label>
+                            <select class="form-select" id="stage" name="stage" required>
+                                {% for stg in stages %}
+                                    <option value="{{ stg }}" {% if deal and deal.stage.value == stg %}selected{% elif not deal and stg == 'lead' %}selected{% endif %}>
+                                        {{ stg|capitalize }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="amount" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Expected Amount ($) *</label>
+                            <input type="number" step="0.01" min="0.00" class="form-control" id="amount" name="amount" placeholder="5000.00" value="{{ deal.amount if deal else '0.00' }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="expected_close_date" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Expected Close Date</label>
+                        <input type="date" class="form-control" id="expected_close_date" name="expected_close_date" value="{{ deal.expected_close_date.strftime('%Y-%m-%d') if deal and deal.expected_close_date else '' }}">
+                    </div>
+                    
+                    <div class="d-flex justify-content-between border-top pt-3">
+                        <a href="/deals" class="btn btn-outline-secondary uppercase">Cancel</a>
+                        <div class="d-flex gap-2">
+                            {% if deal %}
+                            <button type="submit" class="btn btn-outline-danger uppercase" formmethod="POST" formaction="/deals/{{ deal.id }}/delete" onclick="return confirm('Are you sure you want to delete this opportunity?');">Delete</button>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary uppercase">
+                                {% if deal %}Save Changes{% else %}Log Opportunity{% endif %}
+                            </button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

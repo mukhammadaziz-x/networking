@@ -1,6 +1,8 @@
 from app.schemas.company import CompanyCreate, CompanyUpdate, CompanyRead
 from app.schemas.contact import ContactCreate, ContactUpdate, ContactRead
 from app.schemas.product import ProductCreate, ProductUpdate, ProductRead
+from app.schemas.deal import DealCreate, DealUpdate, DealRead
+from app.schemas.order import OrderItemCreate, OrderItemRead, OrderCreate, OrderRead
 
 __all__ = [
     "CompanyCreate",
@@ -12,4 +14,11 @@ __all__ = [
     "ProductCreate",
     "ProductUpdate",
     "ProductRead",
+    "DealCreate",
+    "DealUpdate",
+    "DealRead",
+    "OrderItemCreate",
+    "OrderItemRead",
+    "OrderCreate",
+    "OrderRead",
 ]

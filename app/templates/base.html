@@ -52,7 +52,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/deals" class="nav-link {% if request.url.path.startswith('/deals') %}active{% endif %}">
                             <i class="bi bi-bar-chart-line"></i>
                             <span>Pipeline</span>
                         </a>
@@ -64,7 +64,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/orders" class="nav-link {% if request.url.path.startswith('/orders') %}active{% endif %}">
                             <i class="bi bi-cart3"></i>
                             <span>Orders</span>
                         </a>
