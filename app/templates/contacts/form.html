@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if contact %}Edit Contact - {{ contact.first_name }} {{ contact.last_name }}{% else %}Add New Contact{% endif %} - ClothCRM
+{% endblock %}
+
+{% block page_title %}
+    {% if contact %}Edit Contact{% else %}Add Contact{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/contacts" class="text-decoration-none">Contacts</a></li>
+                {% if contact %}
+                    <li class="breadcrumb-item active" aria-current="page">Edit Contact</li>
+                {% else %}
+                    <li class="breadcrumb-item active" aria-current="page">Add New</li>
+                {% endif %}
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                {% if contact %}Modify Contact Details{% else %}New Representative{% endif %}
+            </div>
+            <div class="card-body">
+                <form action="{% if contact %}/contacts/{{ contact.id }}/edit{% else %}/contacts/create{% endif %}" method="POST">
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="first_name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">First Name *</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="John" value="{{ contact.first_name if contact else '' }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="last_name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Last Name *</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Doe" value="{{ contact.last_name if contact else '' }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="company_id" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Company Association *</label>
+                        <select class="form-select" id="company_id" name="company_id" required>
+                            <option value="" disabled {% if not contact and not preselected_company_id %}selected{% endif %}>Select Account...</option>
+                            {% for company in companies %}
+                                <option value="{{ company.id }}" 
+                                    {% if contact and contact.company_id == company.id %}
+                                        selected
+                                    {% elif not contact and preselected_company_id and preselected_company_id|int == company.id %}
+                                        selected
+                                    {% endif %}>
+                                    {{ company.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="position" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Position / Job Title</label>
+                        <input type="text" class="form-control" id="position" name="position" placeholder="Lead Purchaser" value="{{ contact.position if contact and contact.position else '' }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Email Address *</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="john.doe@company.com" value="{{ contact.email if contact else '' }}" required autocomplete="email">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="phone" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Direct Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="555-123-4567" value="{{ contact.phone if contact and contact.phone else '' }}">
+                    </div>
+                    
+                    <div class="d-flex justify-content-between border-top pt-3">
+                        <a href="{% if contact %}/companies/{{ contact.company_id }}{% elif preselected_company_id %}/companies/{{ preselected_company_id }}{% else %}/contacts{% endif %}" class="btn btn-outline-secondary uppercase">Cancel</a>
+                        <button type="submit" class="btn btn-primary uppercase">
+                            {% if contact %}Save Changes{% else %}Create Contact{% endif %}
+                        </button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

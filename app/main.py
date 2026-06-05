@@ -1,9 +1,17 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, Request, Depends, status
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from app.config import settings
+from app.auth.dependencies import (
+    NeedLoginException,
+    RoleDeniedException,
+    get_flashes,
+    get_current_user
+)
+from app.models.user import User
+from app.routers import auth, users, companies, contacts, products
 
 # Create FastAPI application
 app = FastAPI(
@@ -26,6 +34,28 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 # Initialize templates
 templates = Jinja2Templates(directory="app/templates")
+templates.env.globals["get_flashes"] = get_flashes
+
+
+# Register Exception Handlers
+@app.exception_handler(NeedLoginException)
+async def need_login_exception_handler(request: Request, exc: NeedLoginException):
+    return RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.exception_handler(RoleDeniedException)
+async def role_denied_exception_handler(request: Request, exc: RoleDeniedException):
+    from app.auth.dependencies import flash
+    flash(request, exc.message, "danger")
+    return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+
+# Include routers
+app.include_router(auth.router)
+app.include_router(users.router)
+app.include_router(companies.router)
+app.include_router(contacts.router)
+app.include_router(products.router)
 
 
 @app.get("/health", response_class=JSONResponse)
@@ -35,6 +65,10 @@ def health_check():
 
 
 @app.get("/", response_class=HTMLResponse)
-def home(request: Request):
+def home(request: Request, current_user: User = Depends(get_current_user)):
     """Renders the dashboard / landing page"""
-    return templates.TemplateResponse(request=request, name="home.html")
+    return templates.TemplateResponse(
+        request=request,
+        name="home.html",
+        context={"current_user": current_user}
+    )

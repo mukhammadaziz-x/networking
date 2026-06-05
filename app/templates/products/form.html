@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if product %}Edit Product - {{ product.sku }}{% else %}Add New Product{% endif %} - ClothCRM
+{% endblock %}
+
+{% block page_title %}
+    {% if product %}Edit Product{% else %}Add Product{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/products" class="text-decoration-none">Products</a></li>
+                {% if product %}
+                    <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
+                {% else %}
+                    <li class="breadcrumb-item active" aria-current="page">Add New</li>
+                {% endif %}
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                {% if product %}Modify Product Catalog Details{% else %}New Catalog Entry{% endif %}
+            </div>
+            <div class="card-body">
+                <form action="{% if product %}/products/{{ product.id }}/edit{% else %}/products/create{% endif %}" method="POST">
+                    
+                    <div class="mb-3">
+                        <label for="sku" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Product SKU (Unique ID) *</label>
+                        <input type="text" class="form-control font-monospace" id="sku" name="sku" placeholder="HOODIE-BLK-XL" value="{{ product.sku if product else '' }}" required {% if product %}readonly{% endif %}>
+                        {% if product %}
+                            <div class="form-text" style="font-size: 0.7rem;">SKU identifiers cannot be modified once created.</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Product Name *</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Classic Zipper Hoodie" value="{{ product.name if product else '' }}" required>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="category" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Category</label>
+                            <input type="text" class="form-control" id="category" name="category" placeholder="Hoodies" value="{{ product.category if product and product.category else '' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="size" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Size</label>
+                            <input type="text" class="form-control" id="size" name="size" placeholder="XL" value="{{ product.size if product and product.size else '' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="color" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Color</label>
+                            <input type="text" class="form-control" id="color" name="color" placeholder="Black" value="{{ product.color if product and product.color else '' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="price" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Wholesale Unit Price ($) *</label>
+                            <input type="number" step="0.01" min="0.00" class="form-control" id="price" name="price" placeholder="45.00" value="{{ product.price if product else '0.00' }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="stock_qty" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Initial Stock Qty *</label>
+                            <input type="number" min="0" class="form-control" id="stock_qty" name="stock_qty" placeholder="100" value="{{ product.stock_qty if product else '0' }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="true" {% if not product or product.is_active %}checked{% endif %}>
+                        <label class="form-check-label text-secondary font-weight-600 uppercase" for="is_active" style="font-size: 0.75rem; user-select: none;">Item Active & Available for Orders</label>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between border-top pt-3">
+                        <a href="/products" class="btn btn-outline-secondary uppercase">Cancel</a>
+                        <button type="submit" class="btn btn-primary uppercase">
+                            {% if product %}Save Changes{% else %}Create Product{% endif %}
+                        </button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

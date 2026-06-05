@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}User Management - ClothCRM{% endblock %}
+
+{% block page_title %}User Management{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <h4 class="text-secondary uppercase font-weight-700 m-0" style="font-size: 1rem; letter-spacing: 0.5px;">User Accounts</h4>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
+            <i class="bi bi-person-plus-fill me-2"></i> Add User
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <span>System Accounts</span>
+                <span class="badge bg-secondary">{{ users|length }} Total Users</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr class="uppercase text-secondary" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                                <th class="ps-4 py-3">Name</th>
+                                <th class="py-3">Email</th>
+                                <th class="py-3">Role</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3">Created At</th>
+                                <th class="py-3 text-end pe-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar me-3" style="width: 32px; height: 32px; font-size: 0.8rem; background-color: var(--light-bg-2);">
+                                            {{ user.name[:2]|upper }}
+                                        </div>
+                                        <div>
+                                            <span class="font-weight-600 block">{{ user.name }}</span>
+                                            {% if user.id == current_user.id %}
+                                            <span class="badge bg-success ms-1" style="font-size: 0.65rem;">You</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <!-- Role Change Form (only if not current user) -->
+                                    {% if user.id == current_user.id %}
+                                    <span class="badge bg-dark uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">{{ user.role.value }}</span>
+                                    {% else %}
+                                    <form action="/users/{{ user.id }}/role" method="POST" class="d-inline-block">
+                                        <select name="role" class="form-select form-select-sm" onchange="this.form.submit()" style="font-size: 0.8rem; min-width: 120px; font-weight: 600;">
+                                            <option value="admin" {% if user.role == UserRole.ADMIN %}selected{% endif %}>Admin</option>
+                                            <option value="manager" {% if user.role == UserRole.MANAGER %}selected{% endif %}>Manager</option>
+                                            <option value="sales" {% if user.role == UserRole.SALES %}selected{% endif %}>Sales</option>
+                                        </select>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if user.is_active %}
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle uppercase px-2 py-1" style="font-size: 0.65rem;">Active</span>
+                                    {% else %}
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle uppercase px-2 py-1" style="font-size: 0.65rem;">Inactive</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-secondary" style="font-size: 0.85rem;">
+                                    {{ user.created_at.strftime('%Y-%m-%d %H:%M') }}
+                                </td>
+                                <td class="text-end pe-4">
+                                    {% if user.id != current_user.id %}
+                                    <form action="/users/{{ user.id }}/toggle" method="POST" class="d-inline-block">
+                                        <button type="submit" class="btn btn-sm {% if user.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %} uppercase py-1 px-3" style="font-size: 0.7rem;">
+                                            {% if user.is_active %}Deactivate{% else %}Activate{% endif %}
+                                        </button>
+                                    </form>
+                                    {% else %}
+                                    <span class="text-muted font-weight-600" style="font-size: 0.75rem; text-transform: uppercase;">Protected</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create User Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: var(--border-radius);">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-700 uppercase" id="createUserModalLabel" style="font-size: 0.95rem; letter-spacing: 0.5px;">Create User Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/users" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="john.doe@clothcrm.local" required autocomplete="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">System Role</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="sales" selected>Sales Representative</option>
+                            <option value="manager">Sales Manager</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="At least 6 characters" minlength="6" required autocomplete="new-password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Products - ClothCRM{% endblock %}
+
+{% block page_title %}Product Catalog{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <h4 class="text-secondary uppercase font-weight-700 m-0" style="font-size: 1rem; letter-spacing: 0.5px;">Inventory Items</h4>
+        <a href="/products/create" class="btn btn-primary">
+            <i class="bi bi-tag-fill me-2"></i> Add Product
+        </a>
+    </div>
+</div>
+
+<!-- Search & Filters -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET" action="/products" class="row g-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-secondary"><i class="bi bi-search"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" name="search" placeholder="Search by SKU, name, color..." value="{{ search }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select name="category" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Categories</option>
+                            {% for cat in categories %}
+                                <option value="{{ cat }}" {% if category_filter == cat %}selected{% endif %}>{{ cat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button type="submit" class="btn btn-outline-primary uppercase">Filter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Products Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Catalog Inventory</span>
+                <span class="badge bg-secondary">{{ total }} Products Found</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr class="uppercase text-secondary" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                                <th class="ps-4 py-3">SKU</th>
+                                <th class="py-3">Name</th>
+                                <th class="py-3">Category</th>
+                                <th class="py-3">Size / Color</th>
+                                <th class="py-3">Price</th>
+                                <th class="py-3">Stock Qty</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 text-end pe-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if products %}
+                                {% for product in products %}
+                                <tr>
+                                    <td class="ps-4 font-weight-600 font-monospace" style="font-size: 0.85rem;">{{ product.sku }}</td>
+                                    <td>
+                                        <span class="font-weight-600 block">{{ product.name }}</span>
+                                    </td>
+                                    <td>{{ product.category or "-" }}</td>
+                                    <td>
+                                        {% if product.size or product.color %}
+                                            <span class="badge bg-light text-dark border">{{ product.size or "-" }} / {{ product.color or "-" }}</span>
+                                        {% else %}
+                                            <span class="text-muted small">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="font-weight-600">${{ "{:,.2f}".format(product.price) }}</td>
+                                    <td>
+                                        {% if product.stock_qty <= 10 %}
+                                            <span class="text-danger font-weight-700 block">
+                                                <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ product.stock_qty }}
+                                                <span class="badge bg-danger ms-1" style="font-size: 0.55rem; vertical-align: middle;">LOW</span>
+                                            </span>
+                                        {% else %}
+                                            <span class="text-secondary block">{{ product.stock_qty }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if product.is_active %}
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle uppercase px-2 py-1" style="font-size: 0.65rem;">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle uppercase px-2 py-1" style="font-size: 0.65rem;">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <div class="d-inline-flex gap-2">
+                                            <a href="/products/{{ product.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-1 px-3" style="font-size: 0.7rem;">Edit</a>
+                                            <form action="/products/{{ product.id }}/delete" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger uppercase py-1 px-3" style="font-size: 0.7rem;">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="8" class="text-center py-5">
+                                        <i class="bi bi-tag-fill text-muted block mb-2" style="font-size: 2rem;"></i>
+                                        <p class="text-secondary m-0">No products found in the catalog.</p>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            {% if total_pages > 1 %}
+            <div class="card-footer bg-white border-top d-flex justify-content-center py-3">
+                <nav aria-label="Product Page Navigation">
+                    <ul class="pagination pagination-sm m-0">
+                        <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                            <a class="page-link" href="/products?page={{ page - 1 }}&search={{ search }}&category={{ category_filter }}">Previous</a>
+                        </li>
+                        {% for p in range(1, total_pages + 1) %}
+                        <li class="page-item {% if p == page %}active{% endif %}">
+                            <a class="page-link" href="/products?page={{ p }}&search={{ search }}&category={{ category_filter }}">{{ p }}</a>
+                        </li>
+                        {% endfor %}
+                        <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                            <a class="page-link" href="/products?page={{ page + 1 }}&search={{ search }}&category={{ category_filter }}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
