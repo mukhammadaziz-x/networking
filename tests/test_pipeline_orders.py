@@ -5,6 +5,7 @@ from app.database import SessionLocal
 from app.models.activity import Activity
 from app.models.deal import Deal, DealStage
 from app.models.order import Order, OrderStatus
+from app.models.order_item import OrderItem
 from app.models.product import Product
 from app.models.company import Company
 
@@ -64,6 +65,17 @@ def test_order_creation_and_stock_workflow():
     db = SessionLocal()
     
     try:
+        # Robust cleanup of any leftovers from previous failed runs
+        db.query(OrderItem).filter(OrderItem.product_id.in_(
+            db.query(Product.id).filter(Product.sku == "SHIRT-TEST-INV")
+        )).delete(synchronize_session=False)
+        db.query(Order).filter(Order.company_id.in_(
+            db.query(Company.id).filter(Company.name == "Order Test Corp")
+        )).delete(synchronize_session=False)
+        db.query(Product).filter(Product.sku == "SHIRT-TEST-INV").delete(synchronize_session=False)
+        db.query(Company).filter(Company.name == "Order Test Corp").delete(synchronize_session=False)
+        db.commit()
+
         # Create a company and product for test isolation
         company = Company(name="Order Test Corp", status="active", owner_id=1)
         product = Product(

@@ -4,23 +4,370 @@
 
 {% block page_title %}Dashboard{% endblock %}
 
+{% block extra_css %}
+<style>
+    .kpi-card {
+        border-radius: var(--border-radius);
+        border: 1px solid var(--border-color);
+        background-color: var(--white);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .kpi-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+    .kpi-title {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: var(--text-secondary);
+    }
+    .kpi-value {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--dark-bg);
+        margin: 0.25rem 0;
+    }
+    .kpi-sub {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+    .chart-container {
+        position: relative;
+        height: 250px;
+        width: 100%;
+    }
+    .activity-badge {
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        padding: 2px 6px;
+        letter-spacing: 0.5px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                System Status
+<!-- KPI Cards Row -->
+<div class="row g-3 mb-4">
+    <!-- Total Companies -->
+    <div class="col-md-4 col-lg-2-4">
+        <div class="card kpi-card h-100 mb-0">
+            <div class="card-body d-flex flex-column justify-content-between p-3">
+                <div>
+                    <span class="kpi-title">Total Accounts</span>
+                    <div class="kpi-value">{{ kpis.total_companies }}</div>
+                </div>
+                <span class="kpi-sub"><i class="bi bi-building me-1"></i>Active customers</span>
             </div>
+        </div>
+    </div>
+    
+    <!-- Open Deals & Pipeline -->
+    <div class="col-md-4 col-lg-2-4">
+        <div class="card kpi-card h-100 mb-0">
+            <div class="card-body d-flex flex-column justify-content-between p-3">
+                <div>
+                    <span class="kpi-title">Open Deals</span>
+                    <div class="kpi-value">{{ kpis.open_deals_count }}</div>
+                </div>
+                <span class="kpi-sub text-dark font-weight-700">
+                    <i class="bi bi-currency-dollar me-1"></i>${{ "{:,.0f}".format(kpis.open_deals_value) }} pipeline
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Won Deals Month -->
+    <div class="col-md-4 col-lg-2-4">
+        <div class="card kpi-card h-100 mb-0">
+            <div class="card-body d-flex flex-column justify-content-between p-3">
+                <div>
+                    <span class="kpi-title">Won This Month</span>
+                    <div class="kpi-value">{{ kpis.won_deals_month_count }}</div>
+                </div>
+                <span class="kpi-sub text-success font-weight-700">
+                    <i class="bi bi-cash-stack me-1"></i>+${{ "{:,.0f}".format(kpis.won_deals_month_value) }} value
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monthly Orders & Revenue -->
+    <div class="col-md-6 col-lg-2-4">
+        <div class="card kpi-card h-100 mb-0">
+            <div class="card-body d-flex flex-column justify-content-between p-3">
+                <div>
+                    <span class="kpi-title">Orders This Month</span>
+                    <div class="kpi-value">{{ kpis.orders_month_count }}</div>
+                </div>
+                <span class="kpi-sub text-primary font-weight-700">
+                    <i class="bi bi-cart3 me-1"></i>${{ "{:,.0f}".format(kpis.revenue_month_value) }} revenue
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Open Tasks & Overdue -->
+    <div class="col-md-6 col-lg-2-4">
+        <div class="card kpi-card h-100 mb-0">
+            <div class="card-body d-flex flex-column justify-content-between p-3">
+                <div>
+                    <span class="kpi-title">Pending Tasks</span>
+                    <div class="kpi-value">{{ kpis.open_tasks_count }}</div>
+                </div>
+                <span class="kpi-sub {% if kpis.overdue_tasks_count > 0 %}text-danger font-weight-900{% endif %}">
+                    <i class="bi bi-clock-history me-1"></i>{{ kpis.overdue_tasks_count }} overdue tasks
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Grid -->
+<div class="row g-4 mb-4">
+    <!-- Chart 1: Sales Revenue by Month -->
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-white border-bottom">Sales Revenue by Month</div>
             <div class="card-body">
-                <h4 class="card-title mb-3">Welcome to ClothCRM</h4>
-                <p class="card-text text-secondary">
-                    ClothCRM is the internal back-office ERP/CRM application for our wholesale clothing distribution company.
-                </p>
-                <div class="alert alert-success mt-4 d-inline-block" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i> Phase 0: Project scaffolding and system connection verified successfully!
+                <div class="chart-container">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chart 2: Deals by Stage -->
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-white border-bottom">Opportunities by Stage</div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="dealsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chart 3: Orders by Status -->
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-white border-bottom">Orders by Status</div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="ordersChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chart 4: Top Products -->
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-white border-bottom">Top 5 Products by Volume</div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="productsChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Recent Activity widget -->
+<div class="card">
+    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+        <span>Recent Activity</span>
+        <a href="/activities" class="btn btn-sm btn-outline-secondary uppercase py-1 px-3" style="font-size: 0.7rem;">View Full Feed</a>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
+                <tbody>
+                    {% if activities %}
+                        {% for act in activities %}
+                        <tr>
+                            <td class="ps-4" style="width: 50px;">
+                                <div class="user-avatar-sm" title="{{ act.user.name }}" style="width: 30px; height: 30px; font-size: 0.7rem;">
+                                    {{ act.user.name[:2]|upper }}
+                                </div>
+                            </td>
+                            <td>
+                                <span class="font-weight-700 text-dark">{{ act.user.name }}</span>
+                                <span class="text-secondary">{{ act.description }}</span>
+                            </td>
+                            <td>
+                                <span class="badge activity-badge 
+                                    {% if act.action == 'create' %}bg-success-subtle text-success border border-success-subtle
+                                    {% elif act.action == 'update' %}bg-primary-subtle text-primary border border-primary-subtle
+                                    {% elif act.action == 'delete' %}bg-danger-subtle text-danger border border-danger-subtle
+                                    {% else %}bg-secondary-subtle text-secondary border border-secondary-subtle{% endif %}">
+                                    {{ act.action }}
+                                </span>
+                            </td>
+                            <td class="text-muted pe-4 text-end" style="font-size: 0.75rem;">
+                                {{ act.created_at.strftime('%Y-%m-%d %H:%M') }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td class="text-center py-4 text-secondary">No recent activities.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Include Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fetch data dynamically from the API and render charts
+    fetch('/api/dashboard/data')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('HTTP error ' + response.status);
+            }
+            return response.json();
+        })
+        .then(apiData => {
+            const chartData = apiData.charts;
+            
+            // 1. Sales Revenue Chart (Bar)
+            new Chart(document.getElementById('salesChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: chartData.sales_revenue.labels,
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: chartData.sales_revenue.data,
+                        backgroundColor: '#ca1515',
+                        borderColor: '#ca1515',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: value => '$' + value.toLocaleString() }
+                        }
+                    }
+                }
+            });
+
+            // 2. Deals by Stage Chart (Horizontal Bar / Funnel style)
+            new Chart(document.getElementById('dealsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: chartData.deals_by_stage.labels,
+                    datasets: [
+                        {
+                            label: 'Deal Value ($)',
+                            data: chartData.deals_by_stage.values,
+                            backgroundColor: 'rgba(17, 17, 17, 0.8)',
+                            borderColor: '#111111',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Deal Count',
+                            data: chartData.deals_by_stage.counts,
+                            backgroundColor: '#ca1515',
+                            borderColor: '#ca1515',
+                            borderWidth: 1,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: { callback: value => '$' + value.toLocaleString() }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+
+            // 3. Orders by Status Chart (Doughnut)
+            new Chart(document.getElementById('ordersChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: chartData.orders_by_status.labels,
+                    datasets: [{
+                        data: chartData.orders_by_status.data,
+                        backgroundColor: [
+                            'rgba(108, 117, 125, 0.7)', // Draft
+                            'rgba(40, 167, 69, 0.7)',   // Confirmed
+                            'rgba(255, 193, 7, 0.7)',   // Shipped
+                            'rgba(0, 123, 255, 0.7)',   // Delivered
+                            'rgba(220, 53, 69, 0.7)'    // Cancelled
+                        ],
+                        borderColor: [
+                            '#6c757d', '#28a745', '#ffc107', '#007bff', '#dc3545'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right' }
+                    }
+                }
+            });
+
+            // 4. Top Products Chart (Horizontal Bar)
+            new Chart(document.getElementById('productsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: chartData.top_products.labels,
+                    datasets: [{
+                        label: 'Units Sold',
+                        data: chartData.top_products.data,
+                        backgroundColor: 'rgba(202, 21, 21, 0.85)',
+                        borderColor: '#ca1515',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { beginAtZero: true }
+                    }
+                }
+            });
+        })
+        .catch(err => {
+            console.error('Error rendering dashboard graphs:', err);
+        });
+</script>
 {% endblock %}

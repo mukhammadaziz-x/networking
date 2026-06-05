@@ -1,5 +1,6 @@
 from typing import List, Tuple, Optional
 from datetime import datetime
+from decimal import Decimal
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from app.models.order import Order, OrderStatus
@@ -58,13 +59,13 @@ def create_order(db: Session, order_in: OrderCreate, creator_id: int) -> Order:
         company_id=order_in.company_id,
         order_number=order_number,
         status=order_in.status,
-        total_amount=0.00,  # Will calculate below
+        total_amount=Decimal("0.00"),  # Will calculate below
         created_by=creator_id
     )
     db.add(order)
     db.flush()  # Populate order.id
     
-    total_amount = 0.00
+    total_amount = Decimal("0.00")
     for item_in in order_in.items:
         # Verify product existence
         product = db.query(Product).filter(Product.id == item_in.product_id).first()

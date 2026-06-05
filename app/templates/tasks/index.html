@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks - ClothCRM{% endblock %}
+
+{% block page_title %}Task Management{% endblock %}
+
+{% block extra_css %}
+<style>
+    .task-overdue {
+        color: var(--primary-color) !important;
+        font-weight: 800;
+    }
+    .task-done-title {
+        text-decoration: line-through;
+        color: var(--text-secondary);
+    }
+    .priority-high {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+        border: 1px solid rgba(220, 53, 69, 0.2);
+    }
+    .priority-medium {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+        border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+    .priority-low {
+        background-color: rgba(13, 202, 240, 0.1);
+        color: #0dcaf0;
+        border: 1px solid rgba(13, 202, 240, 0.2);
+    }
+    .task-status-badge {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        padding: 4px 8px;
+        letter-spacing: 0.5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <!-- View Toggle for Managers/Admins -->
+        <div>
+            {% if current_user.role.value in ['admin', 'manager'] %}
+            <div class="btn-group" role="group" aria-label="Task Scope Toggle">
+                <a href="/tasks?view=my&status_filter={{ status_filter }}&priority_filter={{ priority_filter }}&overdue={{ overdue }}" 
+                   class="btn {% if view == 'my' %}btn-primary{% else %}btn-outline-secondary{% endif %} uppercase font-weight-700" style="font-size: 0.75rem;">
+                    My Tasks
+                </a>
+                <a href="/tasks?view=all&status_filter={{ status_filter }}&priority_filter={{ priority_filter }}&overdue={{ overdue }}" 
+                   class="btn {% if view == 'all' %}btn-primary{% else %}btn-outline-secondary{% endif %} uppercase font-weight-700" style="font-size: 0.75rem;">
+                    All Tasks
+                </a>
+            </div>
+            {% else %}
+            <h5 class="text-secondary uppercase font-weight-700 m-0" style="font-size: 1rem; letter-spacing: 0.5px;">My Tasks</h5>
+            {% endif %}
+        </div>
+        
+        <a href="/tasks/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-2"></i> Create Task
+        </a>
+    </div>
+</div>
+
+<!-- Filters Panel -->
+<div class="card mb-4">
+    <div class="card-body py-3">
+        <form method="GET" action="/tasks" class="row g-3 align-items-center">
+            <input type="hidden" name="view" value="{{ view }}">
+            
+            <!-- Status Filter -->
+            <div class="col-md-3">
+                <label for="status_filter" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Status</label>
+                <select name="status_filter" id="status_filter" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="">All Statuses</option>
+                    <option value="open" {% if status_filter == 'open' %}selected{% endif %}>Open</option>
+                    <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="done" {% if status_filter == 'done' %}selected{% endif %}>Completed</option>
+                </select>
+            </div>
+            
+            <!-- Priority Filter -->
+            <div class="col-md-3">
+                <label for="priority_filter" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Priority</label>
+                <select name="priority_filter" id="priority_filter" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="">All Priorities</option>
+                    <option value="low" {% if priority_filter == 'low' %}selected{% endif %}>Low</option>
+                    <option value="medium" {% if priority_filter == 'medium' %}selected{% endif %}>Medium</option>
+                    <option value="high" {% if priority_filter == 'high' %}selected{% endif %}>High</option>
+                </select>
+            </div>
+            
+            <!-- Overdue Filter -->
+            <div class="col-md-3">
+                <label for="overdue" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Timeline</label>
+                <select name="overdue" id="overdue" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="0" {% if overdue == 0 %}selected{% endif %}>All Tasks</option>
+                    <option value="1" {% if overdue == 1 %}selected{% endif %}>Overdue Only</option>
+                </select>
+            </div>
+            
+            <!-- Clear Filters -->
+            <div class="col-md-3 d-flex align-items-end justify-content-md-end h-100" style="margin-top: 28px;">
+                <a href="/tasks?view={{ view }}" class="btn btn-sm btn-outline-secondary uppercase w-100 w-md-auto">
+                    <i class="bi bi-x-circle me-1"></i> Clear Filters
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tasks Table Card -->
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr class="uppercase text-secondary" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+                        <th class="ps-4 py-3" style="width: 40px;"></th>
+                        <th class="py-3">Task Details</th>
+                        <th class="py-3">Priority</th>
+                        <th class="py-3">Status</th>
+                        <th class="py-3">Due Date</th>
+                        <th class="py-3">Assignee</th>
+                        <th class="py-3">Related To</th>
+                        <th class="py-3 text-end pe-4" style="width: 120px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if tasks %}
+                        {% for task in tasks %}
+                        {% set is_overdue = task.due_date and task.due_date < today and task.status != TaskStatus.DONE %}
+                        <tr class="{% if task.status == TaskStatus.DONE %}table-light opacity-75{% endif %}">
+                            <!-- Quick Mark Done Checkbox -->
+                            <td class="ps-4">
+                                {% if task.status != TaskStatus.DONE %}
+                                <div class="form-check">
+                                    <input class="form-check-input task-complete-checkbox" type="checkbox" 
+                                           data-task-id="{{ task.id }}" style="cursor: pointer; width: 18px; height: 18px;">
+                                </div>
+                                {% else %}
+                                <i class="bi bi-check-circle-fill text-success" style="font-size: 1.1rem;"></i>
+                                {% endif %}
+                            </td>
+                            
+                            <!-- Task title & desc -->
+                            <td>
+                                <div class="font-weight-600 text-dark {% if task.status == TaskStatus.DONE %}task-done-title{% endif %}">
+                                    {{ task.title }}
+                                </div>
+                                {% if task.description %}
+                                <div class="text-secondary small mt-1" style="max-width: 300px;">
+                                    {{ task.description }}
+                                </div>
+                                {% endif %}
+                            </td>
+                            
+                            <!-- Priority -->
+                            <td>
+                                <span class="badge task-status-badge priority-{{ task.priority.value }}">
+                                    {{ task.priority.value }}
+                                </span>
+                            </td>
+                            
+                            <!-- Status -->
+                            <td>
+                                {% if task.status == TaskStatus.DONE %}
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle task-status-badge">Completed</span>
+                                {% elif task.status == TaskStatus.IN_PROGRESS %}
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle task-status-badge">In Progress</span>
+                                {% else %}
+                                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle task-status-badge">Open</span>
+                                {% endif %}
+                            </td>
+                            
+                            <!-- Due date -->
+                            <td>
+                                <span class="{% if is_overdue %}task-overdue{% else %}text-secondary{% endif %}" style="font-size: 0.85rem;">
+                                    {% if is_overdue %}
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                                    {% endif %}
+                                    {{ task.due_date.strftime('%Y-%m-%d') if task.due_date else "No due date" }}
+                                </span>
+                            </td>
+                            
+                            <!-- Assignee -->
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="user-avatar-sm" title="{{ task.assignee.name }}" style="width: 24px; height: 24px; font-size: 0.65rem;">
+                                        {{ task.assignee.name[:2]|upper }}
+                                    </div>
+                                    <span class="text-secondary" style="font-size: 0.85rem;">{{ task.assignee.name }}</span>
+                                </div>
+                            </td>
+                            
+                            <!-- Related company / deal -->
+                            <td>
+                                {% if task.related_company %}
+                                    <a href="/companies/{{ task.related_company.id }}" class="text-decoration-none text-dark d-block mb-1" style="font-size: 0.8rem;">
+                                        <i class="bi bi-building text-secondary me-1"></i>{{ task.related_company.name }}
+                                    </a>
+                                {% endif %}
+                                {% if task.related_deal %}
+                                    <a href="/deals/{{ task.related_deal.id }}/edit" class="text-decoration-none text-secondary d-block" style="font-size: 0.75rem;">
+                                        <i class="bi bi-bar-chart-line me-1"></i>{{ task.related_deal.title }}
+                                    </a>
+                                {% endif %}
+                                {% if not task.related_company and not task.related_deal %}
+                                    <span class="text-muted small">-</span>
+                                {% endif %}
+                            </td>
+                            
+                            <!-- Actions -->
+                            <td class="text-end pe-4">
+                                <div class="d-inline-flex gap-2">
+                                    <a href="/tasks/{{ task.id }}/edit" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.65rem;" title="Edit Task">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="/tasks/{{ task.id }}/delete" method="POST" class="d-inline-block" 
+                                          onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger py-0 px-2" style="font-size: 0.65rem;" title="Delete Task">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-secondary">
+                                <i class="bi bi-check2-square text-muted block mb-2" style="font-size: 2rem;"></i>
+                                <span class="d-block font-weight-600">No tasks found.</span>
+                                <span class="text-muted small">Try adjusting your filters or create a new task.</span>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.querySelectorAll('.task-complete-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                const taskId = this.getAttribute('data-task-id');
+                
+                // Call PATCH API endpoint to update task status to done
+                fetch(`/api/tasks/${taskId}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: 'done' })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('HTTP error ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Smooth reload to update lists, layout and activity logs
+                    window.location.reload();
+                })
+                .catch(err => {
+                    console.error('Error completing task:', err);
+                    alert('Error: could not mark task as completed.');
+                    this.checked = false;
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -209,6 +209,78 @@
             </div>
         </div>
         
+        <!-- Related Tasks Card -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Tasks</span>
+                <a href="/tasks/create?company_id={{ company.id }}" class="btn btn-sm btn-outline-primary uppercase py-1 px-3" style="font-size: 0.75rem;">
+                    <i class="bi bi-plus-lg me-1"></i> Add Task
+                </a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr class="uppercase text-secondary" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+                                <th class="ps-4 py-2">Task</th>
+                                <th class="py-2">Priority</th>
+                                <th class="py-2">Status</th>
+                                <th class="py-2">Due Date</th>
+                                <th class="py-2">Assignee</th>
+                                <th class="py-2 text-end pe-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if tasks %}
+                                {% for task in tasks %}
+                                {% set is_overdue = task.due_date and task.due_date < today and task.status != TaskStatus.DONE %}
+                                <tr class="{% if task.status == TaskStatus.DONE %}table-light opacity-75{% endif %}">
+                                    <td class="ps-4">
+                                        <div class="font-weight-600 text-dark {% if task.status == TaskStatus.DONE %}text-decoration-line-through text-muted{% endif %}">{{ task.title }}</div>
+                                        {% if task.description %}
+                                            <div class="text-secondary small">{{ task.description }}</div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge uppercase" style="font-size: 0.65rem; 
+                                            {% if task.priority == TaskPriority.HIGH %}background-color: rgba(220, 53, 69, 0.1); color: #dc3545; border: 1px solid rgba(220, 53, 69, 0.2);
+                                            {% elif task.priority == TaskPriority.MEDIUM %}background-color: rgba(255, 193, 7, 0.1); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.2);
+                                            {% else %}background-color: rgba(13, 202, 240, 0.1); color: #0dcaf0; border: 1px solid rgba(13, 202, 240, 0.2);{% endif %}">
+                                            {{ task.priority.value }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge uppercase" style="font-size: 0.65rem;
+                                            {% if task.status == TaskStatus.DONE %}background-color: rgba(40, 167, 69, 0.1); color: #28a745; border: 1px solid rgba(40, 167, 69, 0.2);
+                                            {% elif task.status == TaskStatus.IN_PROGRESS %}background-color: rgba(255, 193, 7, 0.1); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.2);
+                                            {% else %}background-color: rgba(108, 117, 125, 0.1); color: #6c757d; border: 1px solid rgba(108, 117, 125, 0.2);{% endif %}">
+                                            {% if task.status == TaskStatus.DONE %}Completed{% elif task.status == TaskStatus.IN_PROGRESS %}In Progress{% else %}Open{% endif %}
+                                        </span>
+                                    </td>
+                                    <td class="text-secondary" style="font-size: 0.85rem; {% if is_overdue %}color: #dc3545 !important; font-weight: 800;{% endif %}">
+                                        {% if is_overdue %}<i class="bi bi-exclamation-triangle-fill me-1"></i>{% endif %}
+                                        {{ task.due_date.strftime('%Y-%m-%d') if task.due_date else "-" }}
+                                    </td>
+                                    <td class="text-secondary" style="font-size: 0.85rem;">{{ task.assignee.name }}</td>
+                                    <td class="text-end pe-4">
+                                        <a href="/tasks/{{ task.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-0 px-2" style="font-size: 0.65rem;">Edit</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-secondary">
+                                        <i class="bi bi-check2-square text-muted block mb-1" style="font-size: 1.5rem;"></i>
+                                        <span style="font-size: 0.85rem;">No tasks linked to this company.</span>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
         <!-- Related Orders Card -->
         <div class="card">
             <div class="card-header">

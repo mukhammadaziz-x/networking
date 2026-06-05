@@ -1,16 +1,16 @@
-/* ClothCRM CSS Design System Override */
+/* ClothCRM Brand Design System & Stylesheet overrides */
 
 /* Variables */
 :root {
-    --primary-color: #ca1515;       /* Red accent */
-    --primary-hover: #a80f0f;       /* Darker red for hover */
+    --primary-color: #ca1515;       /* Ashion Red accent */
+    --primary-hover: #b11212;       /* Darker red for hover */
     --dark-bg: #111111;             /* Sidebar navigation background */
-    --darker-bg: #0d0d0d;           /* Even darker bg if needed */
-    --text-primary: #444444;        /* Dark gray text */
+    --darker-bg: #0d0d0d;           /* Sidebar footer */
+    --text-primary: #333333;        /* Dark text */
     --text-secondary: #666666;      /* Medium gray text */
     --text-muted: #888888;          /* Light gray text */
-    --light-bg-1: #f5f5f5;          /* General background */
-    --light-bg-2: #f2f2f2;          /* Secondary panels background */
+    --light-bg-1: #f8f9fa;          /* Main panel background */
+    --light-bg-2: #f1f3f5;          /* Inner card or header background */
     --white: #ffffff;
     --border-color: #e5e5e5;
     --sidebar-width: 260px;
@@ -28,16 +28,16 @@ body {
     overflow-x: hidden;
 }
 
-/* Typography */
+/* Typography & Accessibility */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     color: var(--dark-bg);
 }
 
-p, span, td, th, label {
+p, span, td, th, label, select, input, textarea {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 /* Layout Wrapper */
@@ -46,6 +46,7 @@ p, span, td, th, label {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 
 /* Sidebar Styling */
@@ -57,8 +58,8 @@ p, span, td, th, label {
     color: var(--white);
     display: flex;
     flex-direction: column;
-    z-index: 1000;
-    transition: all 0.3s;
+    z-index: 1001;
+    transition: margin-left 0.3s ease;
 }
 
 #sidebar .sidebar-header {
@@ -72,7 +73,7 @@ p, span, td, th, label {
 #sidebar .logo-text {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     letter-spacing: 1.5px;
     color: var(--white);
     text-decoration: none;
@@ -81,7 +82,7 @@ p, span, td, th, label {
 
 #sidebar .logo-accent {
     font-family: 'Cookie', cursive;
-    font-size: 2.2rem;
+    font-size: 2.1rem;
     color: var(--primary-color);
     text-transform: none;
     vertical-align: middle;
@@ -96,7 +97,7 @@ p, span, td, th, label {
 
 #sidebar .nav-link {
     color: var(--text-muted);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -128,7 +129,8 @@ p, span, td, th, label {
 #sidebar .sidebar-footer {
     padding: 1rem 1.5rem;
     border-top: 1px solid #222222;
-    font-size: 0.75rem;
+    background-color: var(--darker-bg);
+    font-size: 0.7rem;
     color: var(--text-secondary);
 }
 
@@ -139,6 +141,7 @@ p, span, td, th, label {
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    position: relative;
 }
 
 /* Topbar Styling */
@@ -154,7 +157,7 @@ p, span, td, th, label {
 }
 
 .topbar .page-title {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 700;
     margin: 0;
     text-transform: uppercase;
@@ -169,13 +172,13 @@ p, span, td, th, label {
 
 .topbar .user-name {
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-primary);
 }
 
 .topbar .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background-color: var(--light-bg-2);
     display: flex;
@@ -199,22 +202,18 @@ p, span, td, th, label {
     background-color: var(--white);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     margin-bottom: 1.5rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 .card-header {
     background-color: transparent;
     border-bottom: 1px solid var(--border-color);
-    padding: 1.25rem 1.5rem;
+    padding: 1.15rem 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     letter-spacing: 0.5px;
 }
 
@@ -224,13 +223,18 @@ p, span, td, th, label {
 
 /* Custom Overrides for Buttons */
 .btn {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 0.6rem 1.5rem;
+    padding: 0.6rem 1.4rem;
     border-radius: var(--border-radius);
     transition: all 0.2s ease-in-out;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(202, 21, 21, 0.25) !important;
 }
 
 .btn-primary {
@@ -256,45 +260,146 @@ p, span, td, th, label {
     color: var(--white) !important;
 }
 
-/* Custom Alerts */
-.alert {
+/* Form inputs & Accessibility Focus outlines */
+.form-control, .form-select {
+    font-size: 0.85rem;
     border-radius: var(--border-radius);
-    border: none;
-    font-size: 0.9rem;
-    padding: 1rem 1.5rem;
+    border: 1px solid var(--border-color);
+    padding: 0.55rem 0.8rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.alert-success {
-    background-color: #d1e7dd;
-    color: #0f5132;
-    border-left: 4px solid #0f5132;
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(202, 21, 21, 0.15) !important;
+    outline: none;
 }
 
-.alert-danger {
+/* Modern Tables styling */
+.table {
+    border-collapse: collapse;
+}
+
+.table th {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+}
+
+.table td {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+/* Floating Toast notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1070;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast-container .alert {
+    pointer-events: auto;
+    margin-bottom: 0;
+    min-width: 320px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border-radius: var(--border-radius);
+    border-left: 5px solid transparent;
+}
+
+.toast-container .alert-success {
+    border-left-color: #28a745;
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.toast-container .alert-danger {
+    border-left-color: #dc3545;
     background-color: #f8d7da;
-    color: #842029;
-    border-left: 4px solid #842029;
+    color: #721c24;
 }
 
-/* Custom Scrollbar for Sidebar and main content */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+/* Mobile responsive media queries */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: calc(-1 * var(--sidebar-width));
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+    }
+    
+    #sidebar.active {
+        margin-left: 0;
+    }
+    
+    .topbar {
+        padding: 0 1rem;
+    }
+    
+    .content-body {
+        padding: 1.5rem 1rem;
+    }
 }
 
-::-webkit-scrollbar-track {
-    background: transparent;
+/* Backdrop overlay for mobile sidebar drawer */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
 }
 
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
+.sidebar-overlay.active {
+    display: block;
 }
 
-#sidebar ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+/* Empty states card styling */
+.empty-state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.2);
+.empty-state i {
+    font-size: 2.2rem;
+    color: var(--text-muted);
+}
+
+.empty-state .title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-top: 0.75rem;
+    color: var(--dark-bg);
+}
+
+.empty-state .desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* User avatar helper */
+.user-avatar-sm {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--light-bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
 }

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: clothcrm_web_prod
+    restart: always
+    env_file:
+      - .env.production
+    volumes:
+      - static_volume:/app/app/static
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx:alpine
+    container_name: clothcrm_nginx_prod
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_volume:/usr/share/nginx/html/static:ro
+    depends_on:
+      - web
+
+volumes:
+  static_volume:

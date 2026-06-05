@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if task %}Edit Task: {{ task.title }}{% else %}New Task{% endif %} - ClothCRM
+{% endblock %}
+
+{% block page_title %}
+    {% if task %}Edit Task{% else %}Create Task{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/tasks" class="text-decoration-none">Tasks</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {% if task %}Edit Details{% else %}Add Task{% endif %}
+                </li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h5 class="card-title font-weight-700 uppercase m-0" style="font-size: 0.9rem; letter-spacing: 0.5px;">
+                    {% if task %}Task Details{% else %}Task Information{% endif %}
+                </h5>
+            </div>
+            
+            <div class="card-body p-4">
+                <form method="POST" action="{% if task %}/tasks/{{ task.id }}/edit{% else %}/tasks/create{% endif %}">
+                    
+                    <!-- Task Title -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Task Title *</label>
+                        <input type="text" name="title" id="title" class="form-control" placeholder="Enter task objective" 
+                               value="{% if task %}{{ task.title }}{% endif %}" required maxlength="150">
+                    </div>
+                    
+                    <!-- Task Description -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Description</label>
+                        <textarea name="description" id="description" class="form-control" rows="3" placeholder="Enter instructions or notes (optional)" maxlength="500">{% if task %}{{ task.description or '' }}{% endif %}</textarea>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <!-- Due Date -->
+                        <div class="col-md-6">
+                            <label for="due_date" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Due Date</label>
+                            <input type="date" name="due_date" id="due_date" class="form-control" 
+                                   value="{% if task and task.due_date %}{{ task.due_date.strftime('%Y-%m-%d') }}{% endif %}">
+                        </div>
+                        
+                        <!-- Assignee -->
+                        <div class="col-md-6">
+                            <label for="assignee_id" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Assignee *</label>
+                            <select name="assignee_id" id="assignee_id" class="form-select" required>
+                                {% for user in assignees %}
+                                    <option value="{{ user.id }}" 
+                                        {% if task and task.assignee_id == user.id %}
+                                            selected
+                                        {% elif not task and current_user.id == user.id %}
+                                            selected
+                                        {% endif %}>
+                                        {{ user.name }} ({{ user.role.value }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <!-- Priority -->
+                        <div class="col-md-6">
+                            <label for="priority" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Priority</label>
+                            <select name="priority" id="priority" class="form-select">
+                                {% for priority in priorities %}
+                                    <option value="{{ priority }}" 
+                                        {% if task and task.priority.value == priority %}
+                                            selected
+                                        {% elif not task and priority == 'medium' %}
+                                            selected
+                                        {% endif %}>
+                                        {{ priority|capitalize }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Status -->
+                        <div class="col-md-6">
+                            <label for="status" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Status</label>
+                            <select name="status" id="status" class="form-select">
+                                {% for status in statuses %}
+                                    <option value="{{ status }}" 
+                                        {% if task and task.status.value == status %}
+                                            selected
+                                        {% elif not task and status == 'open' %}
+                                            selected
+                                        {% endif %}>
+                                        {% if status == 'in_progress' %}In Progress{% elif status == 'done' %}Completed{% else %}{{ status|capitalize }}{% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 border-top pt-3">
+                        <h6 class="small text-muted uppercase font-weight-700 mb-3" style="font-size: 0.65rem; letter-spacing: 0.5px;">Related Entities (Optional)</h6>
+                        
+                        <!-- Related Company -->
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label for="related_company_id" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Related Company</label>
+                            <select name="related_company_id" id="related_company_id" class="form-select">
+                                <option value="">-- None --</option>
+                                {% for company in companies %}
+                                    <option value="{{ company.id }}" 
+                                        {% if task and task.related_company_id == company.id %}
+                                            selected
+                                        {% elif not task and preselected_company_id == company.id %}
+                                            selected
+                                        {% endif %}>
+                                        {{ company.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Related Deal -->
+                        <div class="col-md-6">
+                            <label for="related_deal_id" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Related Opportunity</label>
+                            <select name="related_deal_id" id="related_deal_id" class="form-select">
+                                <option value="">-- None --</option>
+                                {% for deal in deals %}
+                                    <option value="{{ deal.id }}" 
+                                        {% if task and task.related_deal_id == deal.id %}
+                                            selected
+                                        {% elif not task and preselected_deal_id == deal.id %}
+                                            selected
+                                        {% endif %}>
+                                        {{ deal.title }} (${{ "{:,.2f}".format(deal.amount) }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-flex justify-content-end gap-2 border-top pt-3">
+                        <a href="/tasks" class="btn btn-outline-secondary uppercase">Cancel</a>
+                        <button type="submit" class="btn btn-primary uppercase font-weight-700">
+                            {% if task %}Save Changes{% else %}Create Task{% endif %}
+                        </button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

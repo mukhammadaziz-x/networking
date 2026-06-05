@@ -6,7 +6,9 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
+from datetime import date
 from app.models.company import CompanyStatus
+from app.models.task import TaskStatus, TaskPriority
 from app.auth.dependencies import get_current_user, flash
 from app.schemas.company import CompanyCreate, CompanyUpdate, CompanyRead
 from app.services.company import (
@@ -131,7 +133,11 @@ def view_company_details(
             "contacts": company.contacts,
             "deals": company.deals,
             "orders": company.orders,
-            "current_user": current_user
+            "tasks": company.tasks,
+            "current_user": current_user,
+            "TaskStatus": TaskStatus,
+            "TaskPriority": TaskPriority,
+            "today": date.today()
         }
     )
 

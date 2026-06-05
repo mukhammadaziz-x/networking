@@ -3,7 +3,9 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
+from sqlalchemy.orm import Session
 from app.config import settings
+from app.database import get_db
 from app.auth.dependencies import (
     NeedLoginException,
     RoleDeniedException,
@@ -11,7 +13,9 @@ from app.auth.dependencies import (
     get_current_user
 )
 from app.models.user import User
-from app.routers import auth, users, companies, contacts, products, deals, orders
+from app.models.activity import Activity
+from app.services.dashboard import get_dashboard_kpis
+from app.routers import auth, users, companies, contacts, products, deals, orders, tasks, activities, dashboard
 
 # Create FastAPI application
 app = FastAPI(
@@ -58,6 +62,9 @@ app.include_router(contacts.router)
 app.include_router(products.router)
 app.include_router(deals.router)
 app.include_router(orders.router)
+app.include_router(tasks.router)
+app.include_router(activities.router)
+app.include_router(dashboard.router)
 
 
 @app.get("/health", response_class=JSONResponse)
@@ -67,10 +74,20 @@ def health_check():
 
 
 @app.get("/", response_class=HTMLResponse)
-def home(request: Request, current_user: User = Depends(get_current_user)):
+def home(
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     """Renders the dashboard / landing page"""
+    kpis = get_dashboard_kpis(db)
+    activities = db.query(Activity).order_by(Activity.created_at.desc()).limit(5).all()
     return templates.TemplateResponse(
         request=request,
         name="home.html",
-        context={"current_user": current_user}
+        context={
+            "current_user": current_user,
+            "kpis": kpis,
+            "activities": activities
+        }
     )
