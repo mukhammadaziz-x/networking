@@ -1,24 +1,3 @@
-# Stage 1: Build stage
-FROM python:3.11-slim AS builder
-
-WORKDIR /app
-
-# Prevent python from writing pyc files and buffering stdout/stderr
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Install build utilities and postgres headers
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install python dependencies to local wheels
-COPY requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
-
-
-# Stage 2: Final run stage
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -27,16 +6,17 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Install runtime PostgreSQL client library & curl for health checks
+# Install build utilities, postgres dependencies, and curl for health checks
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
     libpq5 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy wheels from builder stage and install
-COPY --from=builder /app/wheels /wheels
-COPY --from=builder /app/requirements.txt .
-RUN pip install --no-cache-dir --no-index --find-links=/wheels -r requirements.txt && rm -rf /wheels
+# Copy requirements and install via online pip
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application source code
 COPY . .

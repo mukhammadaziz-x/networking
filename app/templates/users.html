@@ -7,7 +7,7 @@
 {% block content %}
 <div class="row mb-4">
     <div class="col-12 d-flex justify-content-between align-items-center">
-        <h4 class="text-secondary uppercase font-weight-700 m-0" style="font-size: 1rem; letter-spacing: 0.5px;">User Accounts</h4>
+        <h4 class="text-secondary uppercase font-weight-700 m-0">User Accounts</h4>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
             <i class="bi bi-person-plus-fill me-2"></i> Add User
         </button>
@@ -25,7 +25,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr class="uppercase text-secondary" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                            <tr class="uppercase text-secondary">
                                 <th class="ps-4 py-3">Name</th>
                                 <th class="py-3">Email</th>
                                 <th class="py-3">Role</th>
@@ -39,13 +39,13 @@
                             <tr>
                                 <td class="ps-4">
                                     <div class="d-flex align-items-center">
-                                        <div class="user-avatar me-3" style="width: 32px; height: 32px; font-size: 0.8rem; background-color: var(--light-bg-2);">
+                                        <div class="user-avatar-md me-3">
                                             {{ user.name[:2]|upper }}
                                         </div>
                                         <div>
                                             <span class="font-weight-600 block">{{ user.name }}</span>
                                             {% if user.id == current_user.id %}
-                                            <span class="badge bg-success ms-1" style="font-size: 0.65rem;">You</span>
+                                            <span class="badge bg-success ms-1">You</span>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -54,10 +54,10 @@
                                 <td>
                                     <!-- Role Change Form (only if not current user) -->
                                     {% if user.id == current_user.id %}
-                                    <span class="badge bg-dark uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">{{ user.role.value }}</span>
+                                    <span class="badge bg-dark uppercase">{{ user.role.value }}</span>
                                     {% else %}
                                     <form action="/users/{{ user.id }}/role" method="POST" class="d-inline-block">
-                                        <select name="role" class="form-select form-select-sm" onchange="this.form.submit()" style="font-size: 0.8rem; min-width: 120px; font-weight: 600;">
+                                        <select name="role" class="form-select form-select-sm font-weight-600" onchange="this.form.submit()" style="min-width: 120px;">
                                             <option value="admin" {% if user.role == UserRole.ADMIN %}selected{% endif %}>Admin</option>
                                             <option value="manager" {% if user.role == UserRole.MANAGER %}selected{% endif %}>Manager</option>
                                             <option value="sales" {% if user.role == UserRole.SALES %}selected{% endif %}>Sales</option>
@@ -67,23 +67,23 @@
                                 </td>
                                 <td>
                                     {% if user.is_active %}
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle uppercase px-2 py-1" style="font-size: 0.65rem;">Active</span>
+                                    <span class="badge badge-status-active">Active</span>
                                     {% else %}
-                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle uppercase px-2 py-1" style="font-size: 0.65rem;">Inactive</span>
+                                    <span class="badge badge-status-inactive">Inactive</span>
                                     {% endif %}
                                 </td>
-                                <td class="text-secondary" style="font-size: 0.85rem;">
+                                <td class="text-secondary">
                                     {{ user.created_at.strftime('%Y-%m-%d %H:%M') }}
                                 </td>
                                 <td class="text-end pe-4">
                                     {% if user.id != current_user.id %}
                                     <form action="/users/{{ user.id }}/toggle" method="POST" class="d-inline-block">
-                                        <button type="submit" class="btn btn-sm {% if user.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %} uppercase py-1 px-3" style="font-size: 0.7rem;">
+                                        <button type="submit" class="btn btn-sm {% if user.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %} uppercase py-1 px-3">
                                             {% if user.is_active %}Deactivate{% else %}Activate{% endif %}
                                         </button>
                                     </form>
                                     {% else %}
-                                    <span class="text-muted font-weight-600" style="font-size: 0.75rem; text-transform: uppercase;">Protected</span>
+                                    <span class="text-muted font-weight-600 uppercase">Protected</span>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -99,23 +99,23 @@
 <!-- Create User Modal -->
 <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" style="border-radius: var(--border-radius);">
+        <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-700 uppercase" id="createUserModalLabel" style="font-size: 0.95rem; letter-spacing: 0.5px;">Create User Account</h5>
+                <h5 class="modal-title font-weight-700 uppercase" id="createUserModalLabel">Create User Account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/users" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Full Name</label>
+                        <label for="name" class="form-label text-secondary font-weight-600 uppercase">Full Name</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Email Address</label>
+                        <label for="email" class="form-label text-secondary font-weight-600 uppercase">Email Address</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="john.doe@clothcrm.local" required autocomplete="email">
                     </div>
                     <div class="mb-3">
-                        <label for="role" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">System Role</label>
+                        <label for="role" class="form-label text-secondary font-weight-600 uppercase">System Role</label>
                         <select class="form-select" id="role" name="role" required>
                             <option value="sales" selected>Sales Representative</option>
                             <option value="manager">Sales Manager</option>
@@ -123,7 +123,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Password</label>
+                        <label for="password" class="form-label text-secondary font-weight-600 uppercase">Password</label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="At least 6 characters" minlength="6" required autocomplete="new-password">
                     </div>
                 </div>

@@ -23,36 +23,36 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Account Info</span>
                 {% if company.status == CompanyStatus.ACTIVE %}
-                    <span class="badge bg-success-subtle text-success border border-success-subtle uppercase px-2 py-1" style="font-size: 0.65rem;">Active</span>
+                    <span class="badge badge-status-active">Active</span>
                 {% elif company.status == CompanyStatus.INACTIVE %}
-                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 uppercase" style="font-size: 0.65rem;">Inactive</span>
+                    <span class="badge badge-status-inactive">Inactive</span>
                 {% else %}
-                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 uppercase" style="font-size: 0.65rem;">Prospect</span>
+                    <span class="badge badge-status-prospect">Prospect</span>
                 {% endif %}
             </div>
             <div class="card-body d-flex flex-column justify-content-between">
                 <div>
-                    <h3 class="font-weight-900 mb-3 text-dark text-uppercase" style="letter-spacing: 0.5px;">{{ company.name }}</h3>
+                    <h3 class="font-weight-900 mb-3 text-dark text-uppercase">{{ company.name }}</h3>
                     
                     <ul class="list-unstyled mb-4">
                         <li class="mb-3 d-flex align-items-start gap-2">
                             <i class="bi bi-tag text-secondary mt-1"></i>
                             <div>
-                                <strong class="small text-muted uppercase font-weight-700 block" style="font-size: 0.65rem;">Industry</strong>
+                                <strong class="small text-muted uppercase font-weight-700 block">Industry</strong>
                                 <span class="text-secondary">{{ company.industry or "Not specified" }}</span>
                             </div>
                         </li>
                         <li class="mb-3 d-flex align-items-start gap-2">
                             <i class="bi bi-telephone text-secondary mt-1"></i>
                             <div>
-                                <strong class="small text-muted uppercase font-weight-700 block" style="font-size: 0.65rem;">Phone</strong>
+                                <strong class="small text-muted uppercase font-weight-700 block">Phone</strong>
                                 <span class="text-secondary">{{ company.phone or "Not specified" }}</span>
                             </div>
                         </li>
                         <li class="mb-3 d-flex align-items-start gap-2">
                             <i class="bi bi-envelope text-secondary mt-1"></i>
                             <div>
-                                <strong class="small text-muted uppercase font-weight-700 block" style="font-size: 0.65rem;">Email</strong>
+                                <strong class="small text-muted uppercase font-weight-700 block">Email</strong>
                                 <span class="text-secondary">
                                     {% if company.email %}
                                         <a href="mailto:{{ company.email }}" class="text-decoration-none text-dark">{{ company.email }}</a>
@@ -65,7 +65,7 @@
                         <li class="mb-3 d-flex align-items-start gap-2">
                             <i class="bi bi-globe text-secondary mt-1"></i>
                             <div>
-                                <strong class="small text-muted uppercase font-weight-700 block" style="font-size: 0.65rem;">Website</strong>
+                                <strong class="small text-muted uppercase font-weight-700 block">Website</strong>
                                 <span class="text-secondary">
                                     {% if company.website %}
                                         <a href="{{ company.website }}" target="_blank" class="text-decoration-none text-dark">{{ company.website }}</a>
@@ -78,7 +78,7 @@
                         <li class="mb-3 d-flex align-items-start gap-2">
                             <i class="bi bi-geo-alt text-secondary mt-1"></i>
                             <div>
-                                <strong class="small text-muted uppercase font-weight-700 block" style="font-size: 0.65rem;">Address</strong>
+                                <strong class="small text-muted uppercase font-weight-700 block">Address</strong>
                                 <span class="text-secondary block">
                                     {{ company.address or "" }}
                                 </span>
@@ -90,7 +90,7 @@
                         <li class="mb-3 d-flex align-items-start gap-2">
                             <i class="bi bi-person text-secondary mt-1"></i>
                             <div>
-                                <strong class="small text-muted uppercase font-weight-700 block" style="font-size: 0.65rem;">Account Owner</strong>
+                                <strong class="small text-muted uppercase font-weight-700 block">Account Owner</strong>
                                 <span class="text-secondary">{{ company.owner.name }}</span>
                             </div>
                         </li>
@@ -117,7 +117,7 @@
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Contacts</span>
-                <a href="/contacts/create?company_id={{ company.id }}" class="btn btn-sm btn-outline-primary uppercase py-1 px-3" style="font-size: 0.75rem;">
+                <a href="/contacts/create?company_id={{ company.id }}" class="btn btn-sm btn-outline-primary uppercase py-1 px-3">
                     <i class="bi bi-plus-lg me-1"></i> Add Contact
                 </a>
             </div>
@@ -125,7 +125,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr class="uppercase text-secondary" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+                            <tr class="uppercase text-secondary">
                                 <th class="ps-4 py-2">Name</th>
                                 <th class="py-2">Position</th>
                                 <th class="py-2">Email</th>
@@ -143,9 +143,9 @@
                                     <td>{{ contact.phone or "-" }}</td>
                                     <td class="text-end pe-4">
                                         <div class="d-inline-flex gap-2">
-                                            <a href="/contacts/{{ contact.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-0 px-2" style="font-size: 0.65rem;"><i class="bi bi-pencil"></i></a>
+                                            <a href="/contacts/{{ contact.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-0 px-2"><i class="bi bi-pencil"></i></a>
                                             <form action="/contacts/{{ contact.id }}/delete" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this contact?');">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger uppercase py-0 px-2" style="font-size: 0.65rem;"><i class="bi bi-trash"></i></button>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger uppercase py-0 px-2"><i class="bi bi-trash"></i></button>
                                             </form>
                                         </div>
                                     </td>
@@ -154,8 +154,10 @@
                             {% else %}
                                 <tr>
                                     <td colspan="5" class="text-center py-4 text-secondary">
-                                        <i class="bi bi-people-fill text-muted block mb-1" style="font-size: 1.5rem;"></i>
-                                        <span style="font-size: 0.85rem;">No contacts linked to this company.</span>
+                                        <div class="empty-state py-3">
+                                            <i class="bi bi-people-fill text-muted block mb-1"></i>
+                                            <div class="title">No contacts linked to this company</div>
+                                        </div>
                                     </td>
                                 </tr>
                             {% endif %}
@@ -174,7 +176,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr class="uppercase text-secondary" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+                            <tr class="uppercase text-secondary">
                                 <th class="ps-4 py-2">Deal Title</th>
                                 <th class="py-2">Amount</th>
                                 <th class="py-2">Stage</th>
@@ -188,9 +190,9 @@
                                     <td class="ps-4 font-weight-600">{{ deal.title }}</td>
                                     <td>${{ "{:,.2f}".format(deal.amount) }}</td>
                                     <td>
-                                        <span class="badge bg-secondary uppercase" style="font-size: 0.65rem;">{{ deal.stage.value }}</span>
+                                        <span class="badge bg-secondary uppercase">{{ deal.stage.value }}</span>
                                     </td>
-                                    <td class="text-secondary pe-4" style="font-size: 0.85rem;">
+                                    <td class="text-secondary pe-4">
                                         {{ deal.expected_close_date.strftime('%Y-%m-%d') if deal.expected_close_date else "-" }}
                                     </td>
                                 </tr>
@@ -198,8 +200,10 @@
                             {% else %}
                                 <tr>
                                     <td colspan="4" class="text-center py-4 text-secondary">
-                                        <i class="bi bi-bar-chart-line-fill text-muted block mb-1" style="font-size: 1.5rem;"></i>
-                                        <span style="font-size: 0.85rem;">No active deals in the pipeline for this account.</span>
+                                        <div class="empty-state py-3">
+                                            <i class="bi bi-bar-chart-line-fill text-muted block mb-1"></i>
+                                            <div class="title">No active deals in the pipeline</div>
+                                        </div>
                                     </td>
                                 </tr>
                             {% endif %}
@@ -213,7 +217,7 @@
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Tasks</span>
-                <a href="/tasks/create?company_id={{ company.id }}" class="btn btn-sm btn-outline-primary uppercase py-1 px-3" style="font-size: 0.75rem;">
+                <a href="/tasks/create?company_id={{ company.id }}" class="btn btn-sm btn-outline-primary uppercase py-1 px-3">
                     <i class="bi bi-plus-lg me-1"></i> Add Task
                 </a>
             </div>
@@ -221,7 +225,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr class="uppercase text-secondary" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+                            <tr class="uppercase text-secondary">
                                 <th class="ps-4 py-2">Task</th>
                                 <th class="py-2">Priority</th>
                                 <th class="py-2">Status</th>
@@ -242,36 +246,36 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <span class="badge uppercase" style="font-size: 0.65rem; 
-                                            {% if task.priority == TaskPriority.HIGH %}background-color: rgba(220, 53, 69, 0.1); color: #dc3545; border: 1px solid rgba(220, 53, 69, 0.2);
-                                            {% elif task.priority == TaskPriority.MEDIUM %}background-color: rgba(255, 193, 7, 0.1); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.2);
-                                            {% else %}background-color: rgba(13, 202, 240, 0.1); color: #0dcaf0; border: 1px solid rgba(13, 202, 240, 0.2);{% endif %}">
+                                        <span class="badge badge-priority-{{ task.priority.value }}">
                                             {{ task.priority.value }}
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge uppercase" style="font-size: 0.65rem;
-                                            {% if task.status == TaskStatus.DONE %}background-color: rgba(40, 167, 69, 0.1); color: #28a745; border: 1px solid rgba(40, 167, 69, 0.2);
-                                            {% elif task.status == TaskStatus.IN_PROGRESS %}background-color: rgba(255, 193, 7, 0.1); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.2);
-                                            {% else %}background-color: rgba(108, 117, 125, 0.1); color: #6c757d; border: 1px solid rgba(108, 117, 125, 0.2);{% endif %}">
-                                            {% if task.status == TaskStatus.DONE %}Completed{% elif task.status == TaskStatus.IN_PROGRESS %}In Progress{% else %}Open{% endif %}
-                                        </span>
+                                        {% if task.status == TaskStatus.DONE %}
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle">Completed</span>
+                                        {% elif task.status == TaskStatus.IN_PROGRESS %}
+                                            <span class="badge bg-warning-subtle text-warning border border-warning-subtle">In Progress</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">Open</span>
+                                        {% endif %}
                                     </td>
-                                    <td class="text-secondary" style="font-size: 0.85rem; {% if is_overdue %}color: #dc3545 !important; font-weight: 800;{% endif %}">
+                                    <td class="text-secondary {% if is_overdue %}task-overdue{% endif %}">
                                         {% if is_overdue %}<i class="bi bi-exclamation-triangle-fill me-1"></i>{% endif %}
                                         {{ task.due_date.strftime('%Y-%m-%d') if task.due_date else "-" }}
                                     </td>
-                                    <td class="text-secondary" style="font-size: 0.85rem;">{{ task.assignee.name }}</td>
+                                    <td class="text-secondary">{{ task.assignee.name }}</td>
                                     <td class="text-end pe-4">
-                                        <a href="/tasks/{{ task.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-0 px-2" style="font-size: 0.65rem;">Edit</a>
+                                        <a href="/tasks/{{ task.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-0 px-2">Edit</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             {% else %}
                                 <tr>
                                     <td colspan="6" class="text-center py-4 text-secondary">
-                                        <i class="bi bi-check2-square text-muted block mb-1" style="font-size: 1.5rem;"></i>
-                                        <span style="font-size: 0.85rem;">No tasks linked to this company.</span>
+                                        <div class="empty-state py-3">
+                                            <i class="bi bi-check2-square text-muted block mb-1"></i>
+                                            <div class="title">No tasks linked to this company</div>
+                                        </div>
                                     </td>
                                 </tr>
                             {% endif %}
@@ -290,7 +294,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr class="uppercase text-secondary" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+                            <tr class="uppercase text-secondary">
                                 <th class="ps-4 py-2">Order Number</th>
                                 <th class="py-2">Order Date</th>
                                 <th class="py-2">Status</th>
@@ -302,9 +306,9 @@
                                 {% for order in orders %}
                                 <tr>
                                     <td class="ps-4 font-weight-600">{{ order.order_number }}</td>
-                                    <td class="text-secondary" style="font-size: 0.85rem;">{{ order.order_date.strftime('%Y-%m-%d') }}</td>
+                                    <td class="text-secondary">{{ order.order_date.strftime('%Y-%m-%d') }}</td>
                                     <td>
-                                        <span class="badge bg-dark uppercase" style="font-size: 0.65rem;">{{ order.status.value }}</span>
+                                        <span class="badge badge-order-{{ order.status.value }}">{{ order.status.value }}</span>
                                     </td>
                                     <td class="font-weight-600 pe-4">${{ "{:,.2f}".format(order.total_amount) }}</td>
                                 </tr>
@@ -312,8 +316,10 @@
                             {% else %}
                                 <tr>
                                     <td colspan="4" class="text-center py-4 text-secondary">
-                                        <i class="bi bi-cart-fill text-muted block mb-1" style="font-size: 1.5rem;"></i>
-                                        <span style="font-size: 0.85rem;">No orders placed yet.</span>
+                                        <div class="empty-state py-3">
+                                            <i class="bi bi-cart-fill text-muted block mb-1"></i>
+                                            <div class="title">No orders placed yet</div>
+                                        </div>
                                     </td>
                                 </tr>
                             {% endif %}
@@ -328,9 +334,9 @@
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteCompanyModal" tabindex="-1" aria-labelledby="deleteCompanyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" style="border-radius: var(--border-radius);">
+        <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-700 uppercase" id="deleteCompanyModalLabel" style="font-size: 0.95rem; letter-spacing: 0.5px;">Confirm Account Deletion</h5>
+                <h5 class="modal-title font-weight-700 uppercase" id="deleteCompanyModalLabel">Confirm Account Deletion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

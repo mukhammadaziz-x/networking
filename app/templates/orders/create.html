@@ -28,7 +28,7 @@
                     <!-- Customer Selection -->
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <label for="company_id" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Wholesale Customer Account *</label>
+                            <label for="company_id" class="form-label">Wholesale Customer Account *</label>
                             <select class="form-select" id="company_id" name="company_id" required>
                                 <option value="" disabled {% if not preselected_company_id %}selected{% endif %}>Select Customer...</option>
                                 {% for company in companies %}
@@ -41,18 +41,18 @@
                     </div>
 
                     <!-- Line Items Table -->
-                    <h5 class="text-secondary font-weight-700 uppercase mb-3" style="font-size: 0.85rem; letter-spacing: 0.5px;">Order Line Items</h5>
+                    <h5 class="mb-3 uppercase text-secondary font-weight-700">Order Line Items</h5>
                     
                     <div class="table-responsive mb-4">
                         <table class="table table-bordered align-middle" id="items-table">
                             <thead class="table-light">
-                                <tr class="uppercase text-secondary" style="font-size: 0.7rem; letter-spacing: 0.5px;">
-                                    <th style="min-width: 250px;">Product SKU & Name *</th>
-                                    <th style="width: 120px;">Available Stock</th>
-                                    <th style="width: 120px;">Quantity *</th>
-                                    <th style="width: 150px;">Unit Price ($) *</th>
-                                    <th style="width: 150px;">Line Total ($)</th>
-                                    <th style="width: 80px;" class="text-center">Action</th>
+                                <tr>
+                                    <th class="col-sku-name">Product SKU & Name *</th>
+                                    <th class="col-qty-stock">Available Stock</th>
+                                    <th class="col-qty-stock">Quantity *</th>
+                                    <th class="col-unit-total">Unit Price ($) *</th>
+                                    <th class="col-unit-total">Line Total ($)</th>
+                                    <th class="col-action text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="items-tbody">
@@ -60,8 +60,8 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="4" class="text-end font-weight-700 uppercase" style="font-size: 0.8rem;">Grand Total:</td>
-                                    <td class="font-weight-900 text-danger" id="grand-total" style="font-size: 1.1rem;">$0.00</td>
+                                    <td colspan="4" class="text-end font-weight-700 uppercase table-grand-label">Grand Total:</td>
+                                    <td class="font-weight-900 text-danger table-grand-value" id="grand-total">$0.00</td>
                                     <td></td>
                                 </tr>
                             </tfoot>

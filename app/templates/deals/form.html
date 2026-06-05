@@ -34,12 +34,12 @@
                 <form action="{% if deal %}/deals/{{ deal.id }}/edit{% else %}/deals/create{% endif %}" method="POST">
                     
                     <div class="mb-3">
-                        <label for="title" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Opportunity Title *</label>
+                        <label for="title" class="form-label text-secondary font-weight-600 uppercase">Opportunity Title *</label>
                         <input type="text" class="form-control" id="title" name="title" placeholder="Acme Bulk Cotton Order Q3" value="{{ deal.title if deal else '' }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="company_id" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Associated Company *</label>
+                        <label for="company_id" class="form-label text-secondary font-weight-600 uppercase">Associated Company *</label>
                         <select class="form-select" id="company_id" name="company_id" required>
                             <option value="" disabled {% if not deal and not preselected_company_id %}selected{% endif %}>Select Account...</option>
                             {% for company in companies %}
@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="contact_id" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Associated Contact</label>
+                        <label for="contact_id" class="form-label text-secondary font-weight-600 uppercase">Associated Contact</label>
                         <select class="form-select" id="contact_id" name="contact_id">
                             <option value="">No Contact Linked</option>
                             {% for contact in contacts %}
@@ -74,7 +74,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="stage" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Pipeline Stage *</label>
+                            <label for="stage" class="form-label text-secondary font-weight-600 uppercase">Pipeline Stage *</label>
                             <select class="form-select" id="stage" name="stage" required>
                                 {% for stg in stages %}
                                     <option value="{{ stg }}" {% if deal and deal.stage.value == stg %}selected{% elif not deal and stg == 'lead' %}selected{% endif %}>
@@ -84,13 +84,13 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="amount" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Expected Amount ($) *</label>
+                            <label for="amount" class="form-label text-secondary font-weight-600 uppercase">Expected Amount ($) *</label>
                             <input type="number" step="0.01" min="0.00" class="form-control" id="amount" name="amount" placeholder="5000.00" value="{{ deal.amount if deal else '0.00' }}" required>
                         </div>
                     </div>
                     
                     <div class="mb-4">
-                        <label for="expected_close_date" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Expected Close Date</label>
+                        <label for="expected_close_date" class="form-label text-secondary font-weight-600 uppercase">Expected Close Date</label>
                         <input type="date" class="form-control" id="expected_close_date" name="expected_close_date" value="{{ deal.expected_close_date.strftime('%Y-%m-%d') if deal and deal.expected_close_date else '' }}">
                     </div>
                     

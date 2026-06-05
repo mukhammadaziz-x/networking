@@ -7,7 +7,7 @@
 {% block content %}
 <div class="row mb-4">
     <div class="col-12 d-flex justify-content-between align-items-center">
-        <h4 class="text-secondary uppercase font-weight-700 m-0" style="font-size: 1rem; letter-spacing: 0.5px;">Wholesale Accounts</h4>
+        <h4 class="text-secondary uppercase font-weight-700 m-0">Wholesale Accounts</h4>
         <a href="/companies/create" class="btn btn-primary">
             <i class="bi bi-plus-lg me-2"></i> Add Company
         </a>
@@ -55,7 +55,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr class="uppercase text-secondary" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                            <tr class="uppercase text-secondary">
                                 <th class="ps-4 py-3">Name</th>
                                 <th class="py-3">Industry</th>
                                 <th class="py-3">Location</th>
@@ -87,16 +87,16 @@
                                     </td>
                                     <td>
                                         {% if company.status == CompanyStatus.ACTIVE %}
-                                            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 uppercase" style="font-size: 0.65rem;">Active</span>
+                                            <span class="badge badge-status-active">Active</span>
                                         {% elif company.status == CompanyStatus.INACTIVE %}
-                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 uppercase" style="font-size: 0.65rem;">Inactive</span>
+                                            <span class="badge badge-status-inactive">Inactive</span>
                                         {% else %}
-                                            <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 uppercase" style="font-size: 0.65rem;">Prospect</span>
+                                            <span class="badge badge-status-prospect">Prospect</span>
                                         {% endif %}
                                     </td>
                                     <td>
                                         {% if company.website %}
-                                            <a href="{{ company.website }}" target="_blank" class="text-secondary text-decoration-none" style="font-size: 0.85rem;">
+                                            <a href="{{ company.website }}" target="_blank" class="text-secondary text-decoration-none">
                                                 <i class="bi bi-box-arrow-up-right me-1"></i> Visit
                                             </a>
                                         {% else %}
@@ -105,8 +105,8 @@
                                     </td>
                                     <td class="text-end pe-4">
                                         <div class="d-inline-flex gap-2">
-                                            <a href="/companies/{{ company.id }}" class="btn btn-sm btn-outline-primary uppercase py-1 px-3" style="font-size: 0.7rem;">View</a>
-                                            <a href="/companies/{{ company.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-1 px-3" style="font-size: 0.7rem;">Edit</a>
+                                            <a href="/companies/{{ company.id }}" class="btn btn-sm btn-outline-primary uppercase py-1 px-3">View</a>
+                                            <a href="/companies/{{ company.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-1 px-3">Edit</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -114,8 +114,11 @@
                             {% else %}
                                 <tr>
                                     <td colspan="6" class="text-center py-5">
-                                        <i class="bi bi-building-fill text-muted block mb-2" style="font-size: 2rem;"></i>
-                                        <p class="text-secondary m-0">No companies found match your filters.</p>
+                                        <div class="empty-state">
+                                            <i class="bi bi-building-fill text-muted block mb-2"></i>
+                                            <div class="title">No Wholesale Accounts Found</div>
+                                            <div class="desc">No companies match your search parameters.</div>
+                                        </div>
                                     </td>
                                 </tr>
                             {% endif %}

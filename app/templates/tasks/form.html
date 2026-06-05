@@ -23,7 +23,7 @@
 
         <div class="card shadow-sm">
             <div class="card-header bg-white py-3 border-bottom">
-                <h5 class="card-title font-weight-700 uppercase m-0" style="font-size: 0.9rem; letter-spacing: 0.5px;">
+                <h5 class="card-title font-weight-700 uppercase m-0">
                     {% if task %}Task Details{% else %}Task Information{% endif %}
                 </h5>
             </div>
@@ -33,28 +33,28 @@
                     
                     <!-- Task Title -->
                     <div class="mb-3">
-                        <label for="title" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Task Title *</label>
+                        <label for="title" class="form-label">Task Title *</label>
                         <input type="text" name="title" id="title" class="form-control" placeholder="Enter task objective" 
                                value="{% if task %}{{ task.title }}{% endif %}" required maxlength="150">
                     </div>
                     
                     <!-- Task Description -->
                     <div class="mb-3">
-                        <label for="description" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Description</label>
+                        <label for="description" class="form-label">Description</label>
                         <textarea name="description" id="description" class="form-control" rows="3" placeholder="Enter instructions or notes (optional)" maxlength="500">{% if task %}{{ task.description or '' }}{% endif %}</textarea>
                     </div>
                     
                     <div class="row mb-3">
                         <!-- Due Date -->
                         <div class="col-md-6">
-                            <label for="due_date" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Due Date</label>
+                            <label for="due_date" class="form-label">Due Date</label>
                             <input type="date" name="due_date" id="due_date" class="form-control" 
                                    value="{% if task and task.due_date %}{{ task.due_date.strftime('%Y-%m-%d') }}{% endif %}">
                         </div>
                         
                         <!-- Assignee -->
                         <div class="col-md-6">
-                            <label for="assignee_id" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Assignee *</label>
+                            <label for="assignee_id" class="form-label">Assignee *</label>
                             <select name="assignee_id" id="assignee_id" class="form-select" required>
                                 {% for user in assignees %}
                                     <option value="{{ user.id }}" 
@@ -73,7 +73,7 @@
                     <div class="row mb-4">
                         <!-- Priority -->
                         <div class="col-md-6">
-                            <label for="priority" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Priority</label>
+                            <label for="priority" class="form-label">Priority</label>
                             <select name="priority" id="priority" class="form-select">
                                 {% for priority in priorities %}
                                     <option value="{{ priority }}" 
@@ -90,7 +90,7 @@
                         
                         <!-- Status -->
                         <div class="col-md-6">
-                            <label for="status" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Status</label>
+                            <label for="status" class="form-label">Status</label>
                             <select name="status" id="status" class="form-select">
                                 {% for status in statuses %}
                                     <option value="{{ status }}" 
@@ -107,11 +107,11 @@
                     </div>
 
                     <div class="row mb-4 border-top pt-3">
-                        <h6 class="small text-muted uppercase font-weight-700 mb-3" style="font-size: 0.65rem; letter-spacing: 0.5px;">Related Entities (Optional)</h6>
+                        <h6 class="form-label mb-3">Related Entities (Optional)</h6>
                         
                         <!-- Related Company -->
                         <div class="col-md-6 mb-3 mb-md-0">
-                            <label for="related_company_id" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Related Company</label>
+                            <label for="related_company_id" class="form-label">Related Company</label>
                             <select name="related_company_id" id="related_company_id" class="form-select">
                                 <option value="">-- None --</option>
                                 {% for company in companies %}
@@ -129,7 +129,7 @@
                         
                         <!-- Related Deal -->
                         <div class="col-md-6">
-                            <label for="related_deal_id" class="form-label small text-muted uppercase font-weight-700 mb-1" style="font-size: 0.65rem;">Related Opportunity</label>
+                            <label for="related_deal_id" class="form-label">Related Opportunity</label>
                             <select name="related_deal_id" id="related_deal_id" class="form-select">
                                 <option value="">-- None --</option>
                                 {% for deal in deals %}
@@ -148,8 +148,8 @@
 
                     <!-- Submit Buttons -->
                     <div class="d-flex justify-content-end gap-2 border-top pt-3">
-                        <a href="/tasks" class="btn btn-outline-secondary uppercase">Cancel</a>
-                        <button type="submit" class="btn btn-primary uppercase font-weight-700">
+                        <a href="/tasks" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
                             {% if task %}Save Changes{% else %}Create Task{% endif %}
                         </button>
                     </div>

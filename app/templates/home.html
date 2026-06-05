@@ -4,50 +4,6 @@
 
 {% block page_title %}Dashboard{% endblock %}
 
-{% block extra_css %}
-<style>
-    .kpi-card {
-        border-radius: var(--border-radius);
-        border: 1px solid var(--border-color);
-        background-color: var(--white);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .kpi-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-    }
-    .kpi-title {
-        font-size: 0.65rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 700;
-        color: var(--text-secondary);
-    }
-    .kpi-value {
-        font-size: 1.5rem;
-        font-weight: 900;
-        color: var(--dark-bg);
-        margin: 0.25rem 0;
-    }
-    .kpi-sub {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-    }
-    .chart-container {
-        position: relative;
-        height: 250px;
-        width: 100%;
-    }
-    .activity-badge {
-        font-size: 0.6rem;
-        text-transform: uppercase;
-        padding: 2px 6px;
-        letter-spacing: 0.5px;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
 <!-- KPI Cards Row -->
 <div class="row g-3 mb-4">
@@ -180,17 +136,17 @@
 <div class="card">
     <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
         <span>Recent Activity</span>
-        <a href="/activities" class="btn btn-sm btn-outline-secondary uppercase py-1 px-3" style="font-size: 0.7rem;">View Full Feed</a>
+        <a href="/activities" class="btn btn-sm btn-outline-secondary uppercase py-1 px-3">View Full Feed</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
+            <table class="table table-hover align-middle mb-0">
                 <tbody>
                     {% if activities %}
                         {% for act in activities %}
                         <tr>
-                            <td class="ps-4" style="width: 50px;">
-                                <div class="user-avatar-sm" title="{{ act.user.name }}" style="width: 30px; height: 30px; font-size: 0.7rem;">
+                            <td class="ps-4">
+                                <div class="user-avatar-sm" title="{{ act.user.name }}">
                                     {{ act.user.name[:2]|upper }}
                                 </div>
                             </td>
@@ -200,21 +156,26 @@
                             </td>
                             <td>
                                 <span class="badge activity-badge 
-                                    {% if act.action == 'create' %}bg-success-subtle text-success border border-success-subtle
-                                    {% elif act.action == 'update' %}bg-primary-subtle text-primary border border-primary-subtle
-                                    {% elif act.action == 'delete' %}bg-danger-subtle text-danger border border-danger-subtle
-                                    {% else %}bg-secondary-subtle text-secondary border border-secondary-subtle{% endif %}">
+                                    {% if act.action == 'create' %}action-create
+                                    {% elif act.action == 'update' %}action-update
+                                    {% elif act.action == 'delete' %}action-delete
+                                    {% else %}action-login{% endif %}">
                                     {{ act.action }}
                                 </span>
                             </td>
-                            <td class="text-muted pe-4 text-end" style="font-size: 0.75rem;">
+                            <td class="text-muted pe-4 text-end">
                                 {{ act.created_at.strftime('%Y-%m-%d %H:%M') }}
                             </td>
                         </tr>
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td class="text-center py-4 text-secondary">No recent activities.</td>
+                            <td class="text-center py-4 text-secondary">
+                                <div class="empty-state py-3">
+                                    <i class="bi bi-clock-history"></i>
+                                    <div class="title">No recent activities</div>
+                                </div>
+                            </td>
                         </tr>
                     {% endif %}
                 </tbody>

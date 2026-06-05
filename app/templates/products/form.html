@@ -34,47 +34,47 @@
                 <form action="{% if product %}/products/{{ product.id }}/edit{% else %}/products/create{% endif %}" method="POST">
                     
                     <div class="mb-3">
-                        <label for="sku" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Product SKU (Unique ID) *</label>
+                        <label for="sku" class="form-label text-secondary font-weight-600 uppercase">Product SKU (Unique ID) *</label>
                         <input type="text" class="form-control font-monospace" id="sku" name="sku" placeholder="HOODIE-BLK-XL" value="{{ product.sku if product else '' }}" required {% if product %}readonly{% endif %}>
                         {% if product %}
-                            <div class="form-text" style="font-size: 0.7rem;">SKU identifiers cannot be modified once created.</div>
+                            <div class="form-text">SKU identifiers cannot be modified once created.</div>
                         {% endif %}
                     </div>
                     
                     <div class="mb-3">
-                        <label for="name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Product Name *</label>
+                        <label for="name" class="form-label text-secondary font-weight-600 uppercase">Product Name *</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Classic Zipper Hoodie" value="{{ product.name if product else '' }}" required>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="category" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Category</label>
+                            <label for="category" class="form-label text-secondary font-weight-600 uppercase">Category</label>
                             <input type="text" class="form-control" id="category" name="category" placeholder="Hoodies" value="{{ product.category if product and product.category else '' }}">
                         </div>
                         <div class="col-md-4">
-                            <label for="size" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Size</label>
+                            <label for="size" class="form-label text-secondary font-weight-600 uppercase">Size</label>
                             <input type="text" class="form-control" id="size" name="size" placeholder="XL" value="{{ product.size if product and product.size else '' }}">
                         </div>
                         <div class="col-md-4">
-                            <label for="color" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Color</label>
+                            <label for="color" class="form-label text-secondary font-weight-600 uppercase">Color</label>
                             <input type="text" class="form-control" id="color" name="color" placeholder="Black" value="{{ product.color if product and product.color else '' }}">
                         </div>
                     </div>
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="price" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Wholesale Unit Price ($) *</label>
+                            <label for="price" class="form-label text-secondary font-weight-600 uppercase">Wholesale Unit Price ($) *</label>
                             <input type="number" step="0.01" min="0.00" class="form-control" id="price" name="price" placeholder="45.00" value="{{ product.price if product else '0.00' }}" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="stock_qty" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Initial Stock Qty *</label>
+                            <label for="stock_qty" class="form-label text-secondary font-weight-600 uppercase">Initial Stock Qty *</label>
                             <input type="number" min="0" class="form-control" id="stock_qty" name="stock_qty" placeholder="100" value="{{ product.stock_qty if product else '0' }}" required>
                         </div>
                     </div>
                     
                     <div class="mb-4 form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="true" {% if not product or product.is_active %}checked{% endif %}>
-                        <label class="form-check-label text-secondary font-weight-600 uppercase" for="is_active" style="font-size: 0.75rem; user-select: none;">Item Active & Available for Orders</label>
+                        <label class="form-check-label text-secondary font-weight-600 uppercase" for="is_active" style="user-select: none;">Item Active & Available for Orders</label>
                     </div>
                     
                     <div class="d-flex justify-content-between border-top pt-3">

@@ -35,17 +35,17 @@
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="first_name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">First Name *</label>
+                            <label for="first_name" class="form-label text-secondary font-weight-600 uppercase">First Name *</label>
                             <input type="text" class="form-control" id="first_name" name="first_name" placeholder="John" value="{{ contact.first_name if contact else '' }}" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="last_name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Last Name *</label>
+                            <label for="last_name" class="form-label text-secondary font-weight-600 uppercase">Last Name *</label>
                             <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Doe" value="{{ contact.last_name if contact else '' }}" required>
                         </div>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="company_id" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Company Association *</label>
+                        <label for="company_id" class="form-label text-secondary font-weight-600 uppercase">Company Association *</label>
                         <select class="form-select" id="company_id" name="company_id" required>
                             <option value="" disabled {% if not contact and not preselected_company_id %}selected{% endif %}>Select Account...</option>
                             {% for company in companies %}
@@ -62,17 +62,17 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="position" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Position / Job Title</label>
+                        <label for="position" class="form-label text-secondary font-weight-600 uppercase">Position / Job Title</label>
                         <input type="text" class="form-control" id="position" name="position" placeholder="Lead Purchaser" value="{{ contact.position if contact and contact.position else '' }}">
                     </div>
                     
                     <div class="mb-3">
-                        <label for="email" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Email Address *</label>
+                        <label for="email" class="form-label text-secondary font-weight-600 uppercase">Email Address *</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="john.doe@company.com" value="{{ contact.email if contact else '' }}" required autocomplete="email">
                     </div>
                     
                     <div class="mb-4">
-                        <label for="phone" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Direct Phone</label>
+                        <label for="phone" class="form-label text-secondary font-weight-600 uppercase">Direct Phone</label>
                         <input type="tel" class="form-control" id="phone" name="phone" placeholder="555-123-4567" value="{{ contact.phone if contact and contact.phone else '' }}">
                     </div>
                     

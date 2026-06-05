@@ -36,33 +36,33 @@
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="name" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Company Name *</label>
+                            <label for="name" class="form-label text-secondary font-weight-600 uppercase">Company Name *</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Acme Wholesale Ltd" value="{{ company.name if company else '' }}" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="industry" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Industry</label>
+                            <label for="industry" class="form-label text-secondary font-weight-600 uppercase">Industry</label>
                             <input type="text" class="form-control" id="industry" name="industry" placeholder="Retail / Apparel / E-commerce" value="{{ company.industry if company and company.industry else '' }}">
                         </div>
                     </div>
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="phone" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Phone Number</label>
+                            <label for="phone" class="form-label text-secondary font-weight-600 uppercase">Phone Number</label>
                             <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1-555-123-4567" value="{{ company.phone if company and company.phone else '' }}">
                         </div>
                         <div class="col-md-6">
-                            <label for="email" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Billing Email</label>
+                            <label for="email" class="form-label text-secondary font-weight-600 uppercase">Billing Email</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="billing@acme.com" value="{{ company.email if company and company.email else '' }}" autocomplete="email">
                         </div>
                     </div>
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="website" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Website URL</label>
+                            <label for="website" class="form-label text-secondary font-weight-600 uppercase">Website URL</label>
                             <input type="text" class="form-control" id="website" name="website" placeholder="https://acme.com" value="{{ company.website if company and company.website else '' }}">
                         </div>
                         <div class="col-md-6">
-                            <label for="status" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Relationship Status *</label>
+                            <label for="status" class="form-label text-secondary font-weight-600 uppercase">Relationship Status *</label>
                             <select class="form-select" id="status" name="status" required>
                                 {% for stat in statuses %}
                                     <option value="{{ stat }}" {% if company and company.status.value == stat %}selected{% elif not company and stat == 'prospect' %}selected{% endif %}>
@@ -74,17 +74,17 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="address" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Street Address</label>
+                        <label for="address" class="form-label text-secondary font-weight-600 uppercase">Street Address</label>
                         <input type="text" class="form-control" id="address" name="address" placeholder="123 Corporate Blvd Suite 400" value="{{ company.address if company and company.address else '' }}">
                     </div>
                     
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <label for="city" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">City</label>
+                            <label for="city" class="form-label text-secondary font-weight-600 uppercase">City</label>
                             <input type="text" class="form-control" id="city" name="city" placeholder="Chicago" value="{{ company.city if company and company.city else '' }}">
                         </div>
                         <div class="col-md-6">
-                            <label for="country" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem;">Country</label>
+                            <label for="country" class="form-label text-secondary font-weight-600 uppercase">Country</label>
                             <input type="text" class="form-control" id="country" name="country" placeholder="USA" value="{{ company.country if company and company.country else '' }}">
                         </div>
                     </div>

@@ -403,3 +403,484 @@ p, span, td, th, label, select, input, textarea {
     color: var(--primary-color);
     border: 1px solid var(--border-color);
 }
+
+/* Global Utility Overrides */
+.uppercase {
+    text-transform: uppercase;
+}
+.font-weight-600 {
+    font-weight: 600;
+}
+.font-weight-700 {
+    font-weight: 700;
+}
+.font-weight-900 {
+    font-weight: 900;
+}
+.block {
+    display: block;
+}
+
+/* Global Form Label Styling */
+.form-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+}
+
+/* 5 Column Grid for KPI Cards */
+@media (min-width: 992px) {
+    .col-lg-2-4 {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+}
+
+/* Avatars */
+.user-avatar-md {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--light-bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+}
+.user-avatar-sm {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--light-bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Status Badges */
+.badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 0.4em 0.6em;
+}
+.badge-status-active {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+.badge-status-inactive {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+.badge-status-prospect {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+/* Order Status Badges */
+.badge-order-draft {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.2);
+}
+.badge-order-confirmed {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+    border: 1px solid rgba(0, 123, 255, 0.2);
+}
+.badge-order-shipped {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.2);
+}
+.badge-order-delivered {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+.badge-order-cancelled {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+/* Priority Badges */
+.badge-priority-high {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+.badge-priority-medium {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.2);
+}
+.badge-priority-low {
+    background-color: rgba(13, 202, 240, 0.1);
+    color: #0dcaf0;
+    border: 1px solid rgba(13, 202, 240, 0.2);
+}
+
+/* Login Page Styling */
+body.login-page {
+    background-color: var(--dark-bg);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 420px;
+    padding: 2.5rem;
+}
+.login-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.login-logo .logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    color: var(--dark-bg);
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.login-logo .logo-accent {
+    font-family: 'Cookie', cursive;
+    font-size: 3.2rem;
+    color: var(--primary-color);
+    text-transform: none;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+/* Kanban Board Styling */
+.kanban-board {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    min-height: calc(100vh - 220px);
+}
+.kanban-col {
+    flex: 1;
+    min-width: 260px;
+    max-width: 350px;
+    background-color: var(--light-bg-2);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    height: calc(100vh - 240px);
+}
+.kanban-col-header {
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+.kanban-col-title {
+    color: var(--dark-bg);
+}
+.kanban-col-total {
+    color: var(--primary-color);
+    font-weight: 900;
+}
+.kanban-cards-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 150px;
+    padding: 0.2rem;
+}
+.kanban-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    cursor: grab;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.kanban-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+.kanban-card:active {
+    cursor: grabbing;
+}
+.kanban-card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+}
+.kanban-card-company {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 0.5rem;
+}
+.kanban-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--light-bg-1);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+.kanban-card-amount {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--dark-bg);
+}
+.kanban-card-actions a {
+    padding: 2px 6px;
+    font-size: 0.65rem;
+}
+.kanban-cards-container.drag-over {
+    background-color: rgba(202, 21, 21, 0.05);
+    border: 1px dashed var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+/* Activity timeline styling */
+.activity-timeline {
+    position: relative;
+    padding-left: 1.5rem;
+}
+.activity-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background-color: var(--light-bg-2);
+}
+.activity-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+.activity-dot {
+    position: absolute;
+    left: calc(-1.5rem - 4px);
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    border: 2px solid var(--white);
+    box-shadow: 0 0 0 2px var(--light-bg-2);
+}
+.action-create {
+    background-color: rgba(40, 167, 69, 0.1) !important;
+    color: #28a745 !important;
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+.action-update {
+    background-color: rgba(0, 123, 255, 0.1) !important;
+    color: #007bff !important;
+    border: 1px solid rgba(0, 123, 255, 0.2);
+}
+.action-delete {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    color: #dc3545 !important;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+.action-login {
+    background-color: rgba(108, 117, 125, 0.1) !important;
+    color: #6c757d !important;
+    border: 1px solid rgba(108, 117, 125, 0.2);
+}
+.activity-badge {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    letter-spacing: 0.5px;
+}
+
+/* Invoice Specifics */
+.invoice-card {
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+}
+.invoice-header {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+.invoice-title-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+.invoice-title-brand .logo-accent {
+    font-family: 'Cookie', cursive;
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    text-transform: none;
+    vertical-align: middle;
+}
+
+/* Dashboard KPIs styling */
+.kpi-card {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+.kpi-title {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+.kpi-value {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--dark-bg);
+    margin: 0.25rem 0;
+}
+.kpi-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+
+/* Task Specific Overrides */
+.task-overdue {
+    color: var(--primary-color) !important;
+    font-weight: 800;
+}
+.task-done-title {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
+
+/* Printable invoice rules */
+@media print {
+    body {
+        background-color: white !important;
+        color: black !important;
+    }
+    #sidebar, .topbar, .btn-actions-panel, .breadcrumb {
+        display: none !important;
+    }
+    #main-content {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+    .content-body {
+        padding: 0 !important;
+    }
+    .invoice-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    .card-header {
+        display: none !important;
+    }
+}
+
+/* Table Column Widths for Order Line Items */
+.col-sku-name {
+    min-width: 250px;
+}
+.col-qty-stock {
+    width: 120px;
+}
+.col-unit-total {
+    width: 150px;
+}
+.col-action {
+    width: 80px;
+}
+.table-grand-label {
+    font-size: 0.8rem;
+}
+.table-grand-value {
+    font-size: 1.1rem;
+}
+.invoice-meta-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+}
+.filter-align-btn {
+    margin-top: 28px;
+}
+.task-complete-checkbox {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+.task-desc {
+    max-width: 300px;
+}
+.user-avatar-xs {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--light-bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.65rem;
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+}
+
+
+
+
+

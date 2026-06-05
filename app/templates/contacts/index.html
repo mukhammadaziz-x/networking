@@ -7,7 +7,7 @@
 {% block content %}
 <div class="row mb-4">
     <div class="col-12 d-flex justify-content-between align-items-center">
-        <h4 class="text-secondary uppercase font-weight-700 m-0" style="font-size: 1rem; letter-spacing: 0.5px;">Customer Representatives</h4>
+        <h4 class="text-secondary uppercase font-weight-700 m-0">Customer Representatives</h4>
         <a href="/contacts/create" class="btn btn-primary">
             <i class="bi bi-person-plus-fill me-2"></i> Add Contact
         </a>
@@ -47,7 +47,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr class="uppercase text-secondary" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                            <tr class="uppercase text-secondary">
                                 <th class="ps-4 py-3">Name</th>
                                 <th class="py-3">Position</th>
                                 <th class="py-3">Company</th>
@@ -62,7 +62,7 @@
                                 <tr>
                                     <td class="ps-4">
                                         <div class="d-flex align-items-center">
-                                            <div class="user-avatar me-3" style="width: 32px; height: 32px; font-size: 0.8rem; background-color: var(--light-bg-2);">
+                                            <div class="user-avatar-md me-3">
                                                 {{ contact.first_name[0]|upper }}{{ contact.last_name[0]|upper }}
                                             </div>
                                             <span class="font-weight-600 block">{{ contact.first_name }} {{ contact.last_name }}</span>
@@ -82,9 +82,9 @@
                                     <td>{{ contact.phone or "-" }}</td>
                                     <td class="text-end pe-4">
                                         <div class="d-inline-flex gap-2">
-                                            <a href="/contacts/{{ contact.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-1 px-3" style="font-size: 0.7rem;">Edit</a>
+                                            <a href="/contacts/{{ contact.id }}/edit" class="btn btn-sm btn-outline-secondary uppercase py-1 px-3">Edit</a>
                                             <form action="/contacts/{{ contact.id }}/delete" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this contact?');">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger uppercase py-1 px-3" style="font-size: 0.7rem;">Delete</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger uppercase py-1 px-3">Delete</button>
                                             </form>
                                         </div>
                                     </td>
@@ -93,8 +93,11 @@
                             {% else %}
                                 <tr>
                                     <td colspan="6" class="text-center py-5">
-                                        <i class="bi bi-people-fill text-muted block mb-2" style="font-size: 2rem;"></i>
-                                        <p class="text-secondary m-0">No contacts found matching your criteria.</p>
+                                        <div class="empty-state">
+                                            <i class="bi bi-people-fill text-muted block mb-2"></i>
+                                            <div class="title">No Contacts Found</div>
+                                            <div class="desc">No representative records match your query.</div>
+                                        </div>
                                     </td>
                                 </tr>
                             {% endif %}

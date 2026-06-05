@@ -4,71 +4,6 @@
 
 {% block page_title %}Invoice Details{% endblock %}
 
-{% block extra_css %}
-<style>
-    /* Styling for printable invoice layout */
-    .invoice-card {
-        border: 1px solid var(--border-color);
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-    }
-    
-    .invoice-header {
-        border-bottom: 2px solid var(--primary-color);
-        padding-bottom: 1.5rem;
-        margin-bottom: 2rem;
-    }
-    
-    .invoice-title-brand {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 900;
-        font-size: 1.8rem;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-    }
-    
-    .invoice-title-brand .logo-accent {
-        font-family: 'Cookie', cursive;
-        font-size: 2.8rem;
-        color: var(--primary-color);
-        text-transform: none;
-        vertical-align: middle;
-    }
-    
-    /* Printable Print Media Rules */
-    @media print {
-        body {
-            background-color: white !important;
-            color: black !important;
-        }
-        
-        #sidebar, .topbar, .btn-actions-panel, .breadcrumb {
-            display: none !important;
-        }
-        
-        #main-content {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-        }
-        
-        .content-body {
-            padding: 0 !important;
-        }
-        
-        .invoice-card {
-            border: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-        }
-        
-        .card-header {
-            display: none !important;
-        }
-    }
-</style>
-{% endblock %}
-
 {% block content %}
 <div class="row mb-4 btn-actions-panel">
     <div class="col-12 d-flex justify-content-between align-items-center">
@@ -116,7 +51,7 @@
                 <!-- Billing Details Info Row -->
                 <div class="row mb-4">
                     <div class="col-md-6 mb-3 mb-md-0">
-                        <strong class="text-muted small uppercase font-weight-700 block mb-2" style="font-size: 0.65rem; letter-spacing: 0.5px;">Customer / Billed To:</strong>
+                        <strong class="invoice-meta-label mb-2">Customer / Billed To:</strong>
                         <h5 class="font-weight-700 text-dark mb-1">{{ order.company.name }}</h5>
                         <span class="text-secondary small block">{{ order.company.address or "" }}</span>
                         <span class="text-secondary small font-weight-600 block">
@@ -127,7 +62,7 @@
                         {% endif %}
                     </div>
                     <div class="col-md-6 text-md-end">
-                        <strong class="text-muted small uppercase font-weight-700 block mb-2" style="font-size: 0.65rem; letter-spacing: 0.5px;">Account Manager:</strong>
+                        <strong class="invoice-meta-label mb-2">Account Manager:</strong>
                         <span class="text-secondary block font-weight-600">{{ order.creator.name }}</span>
                         <span class="text-secondary small block">{{ order.creator.email }}</span>
                     </div>
@@ -137,21 +72,21 @@
                 <div class="table-responsive mb-4">
                     <table class="table table-bordered align-middle">
                         <thead class="table-light">
-                            <tr class="uppercase text-secondary font-weight-700" style="font-size: 0.65rem; letter-spacing: 0.5px;">
+                            <tr>
                                 <th class="ps-3">Item Details (SKU - Product Name)</th>
-                                <th class="text-center" style="width: 100px;">Size</th>
-                                <th class="text-center" style="width: 100px;">Color</th>
-                                <th class="text-center" style="width: 100px;">Quantity</th>
-                                <th class="text-end" style="width: 130px;">Unit Price</th>
-                                <th class="text-end pe-3" style="width: 150px;">Total</th>
+                                <th class="text-center col-qty-stock">Size</th>
+                                <th class="text-center col-qty-stock">Color</th>
+                                <th class="text-center col-qty-stock">Quantity</th>
+                                <th class="text-end col-unit-total">Unit Price</th>
+                                <th class="text-end pe-3 col-unit-total">Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for item in order.items %}
                             <tr>
                                 <td class="ps-3">
-                                    <strong class="font-monospace text-dark" style="font-size: 0.85rem;">{{ item.product.sku }}</strong><br>
-                                    <span class="text-secondary" style="font-size: 0.9rem;">{{ item.product.name }}</span>
+                                    <strong class="font-monospace text-dark">{{ item.product.sku }}</strong><br>
+                                    <span class="text-secondary">{{ item.product.name }}</span>
                                 </td>
                                 <td class="text-center">{{ item.product.size or "-" }}</td>
                                 <td class="text-center">{{ item.product.color or "-" }}</td>
@@ -163,8 +98,8 @@
                             <!-- Summary Calculations row -->
                             <tr>
                                 <td colspan="4" class="border-0"></td>
-                                <td class="text-end font-weight-700 uppercase" style="font-size: 0.85rem; background-color: var(--light-bg-1);">Total Due:</td>
-                                <td class="text-end pe-3 font-weight-900 text-danger" style="font-size: 1.1rem; background-color: var(--light-bg-1);">${{ "{:,.2f}".format(order.total_amount) }}</td>
+                                <td class="text-end font-weight-700 uppercase table-grand-label bg-light">Total Due:</td>
+                                <td class="text-end pe-3 font-weight-900 text-danger table-grand-value bg-light">${{ "{:,.2f}".format(order.total_amount) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -186,22 +121,22 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <label class="small text-muted uppercase font-weight-700 block mb-1" style="font-size: 0.6rem;">Current Status</label>
+                    <label class="invoice-meta-label mb-1">Current Status</label>
                     {% if order.status == OrderStatus.DRAFT %}
-                        <span class="badge bg-light text-dark border w-100 py-2 uppercase" style="font-size: 0.75rem;">Draft</span>
+                        <span class="badge badge-order-draft w-100 py-2">Draft</span>
                     {% elif order.status == OrderStatus.CONFIRMED %}
-                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle w-100 py-2 uppercase" style="font-size: 0.75rem;">Confirmed</span>
+                        <span class="badge badge-order-confirmed w-100 py-2">Confirmed</span>
                     {% elif order.status == OrderStatus.SHIPPED %}
-                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle w-100 py-2 uppercase" style="font-size: 0.75rem;">Shipped</span>
+                        <span class="badge badge-order-shipped w-100 py-2">Shipped</span>
                     {% elif order.status == OrderStatus.DELIVERED %}
-                        <span class="badge bg-success-subtle text-success border border-success-subtle w-100 py-2 uppercase" style="font-size: 0.75rem;">Delivered</span>
+                        <span class="badge badge-order-delivered w-100 py-2">Delivered</span>
                     {% else %}
-                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle w-100 py-2 uppercase" style="font-size: 0.75rem;">Cancelled</span>
+                        <span class="badge badge-order-cancelled w-100 py-2">Cancelled</span>
                     {% endif %}
                 </div>
 
                 <div class="border-top pt-3">
-                    <label class="small text-muted uppercase font-weight-700 block mb-2" style="font-size: 0.6rem;">Update Status</label>
+                    <label class="invoice-meta-label mb-2">Update Status</label>
                     <form action="/orders/{{ order.id }}/status" method="POST">
                         <div class="d-grid gap-2">
                             
@@ -220,7 +155,7 @@
                             {% endif %}
                             
                             <!-- Transition Shipped to Delivered -->
-                            {% if order.status == OrderStatus.SHIPPED %}
+                            {% if order.status == OrderStatus.DELIVERED %}
                             <button type="submit" name="status" value="delivered" class="btn btn-success btn-sm uppercase py-2">
                                 <i class="bi bi-house-check me-1"></i> Mark as Delivered
                             </button>

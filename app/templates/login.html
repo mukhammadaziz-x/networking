@@ -21,50 +21,6 @@
     
     <!-- Favicon inline SVG -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👕</text></svg>">
-    
-    <style>
-        body.login-page {
-            background-color: var(--dark-bg);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .login-card {
-            background-color: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 420px;
-            padding: 2.5rem;
-        }
-        
-        .login-logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .login-logo .logo-text {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 2.2rem;
-            letter-spacing: 2px;
-            color: var(--dark-bg);
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-        
-        .login-logo .logo-accent {
-            font-family: 'Cookie', cursive;
-            font-size: 3.2rem;
-            color: var(--primary-color);
-            text-transform: none;
-            vertical-align: middle;
-            margin-left: 4px;
-        }
-    </style>
 </head>
 <body class="login-page">
 
@@ -86,7 +42,7 @@
         
         <form action="/login" method="POST">
             <div class="mb-3">
-                <label for="email" class="form-label text-secondary font-weight-600 uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Email Address</label>
+                <label for="email" class="form-label text-secondary font-weight-600 uppercase">Email Address</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light border-end-0 text-secondary"><i class="bi bi-envelope"></i></span>
                     <input type="email" class="form-control border-start-0 ps-0" id="email" name="email" placeholder="name@company.com" required autocomplete="email">
@@ -95,7 +51,7 @@
             
             <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-1">
-                    <label for="password" class="form-label text-secondary font-weight-600 uppercase m-0" style="font-size: 0.75rem; letter-spacing: 0.5px;">Password</label>
+                    <label for="password" class="form-label text-secondary font-weight-600 uppercase m-0">Password</label>
                 </div>
                 <div class="input-group">
                     <span class="input-group-text bg-light border-end-0 text-secondary"><i class="bi bi-lock"></i></span>
