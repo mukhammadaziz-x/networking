@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - ClothCRM{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                System Status
+            </div>
+            <div class="card-body">
+                <h4 class="card-title mb-3">Welcome to ClothCRM</h4>
+                <p class="card-text text-secondary">
+                    ClothCRM is the internal back-office ERP/CRM application for our wholesale clothing distribution company.
+                </p>
+                <div class="alert alert-success mt-4 d-inline-block" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> Phase 0: Project scaffolding and system connection verified successfully!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
