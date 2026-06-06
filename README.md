@@ -155,3 +155,6 @@ To enable the pipeline, configure the following secrets in your GitHub Repositor
 - `SSH_USER`: The SSH login username (usually `root`).
 - `SSH_PRIVATE_KEY`: Your SSH private key corresponding to the public key authorized on the Droplet.
 - `GITHUB_TOKEN`: Automatically provided by GitHub (requires write permissions to write packages to GHCR).
+
+
+nima gap?
