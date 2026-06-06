@@ -43,6 +43,12 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/clothcrm
 
+      - name: Seed test database
+        run: |
+          python scripts/seed.py
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/clothcrm
+
       - name: Run automated test suite
         run: |
           pytest -v tests/
