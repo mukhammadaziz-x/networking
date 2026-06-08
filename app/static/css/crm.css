@@ -146,10 +146,10 @@ p, span, td, th, label, select, input, textarea {
     background-color: rgba(255, 255, 255, 0.04);
 }
 
-#sidebar .nav-link:hover i {
+/* #sidebar .nav-link:hover i {
     transform: scale(1.1);
     color: var(--primary-color);
-}
+} */
 
 #sidebar .nav-link.active {
     color: var(--white);
@@ -195,6 +195,7 @@ p, span, td, th, label, select, input, textarea {
     flex-shrink: 0;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01);
     z-index: 1000;
+    width: 77%;
 }
 
 .topbar .logo-text {
@@ -236,13 +237,13 @@ p, span, td, th, label, select, input, textarea {
 }
 
 .header-nav .nav-item {
-    font-size: 0.75rem;
+    font-size: 0.60rem;
     font-weight: 700;
     color: var(--text-secondary);
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding: 0.55rem 0.85rem;
+    padding: 0.30rem 0.65rem;
     border-radius: 9999px;
     display: flex;
     align-items: center;
@@ -364,11 +365,11 @@ p, span, td, th, label, select, input, textarea {
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s ease;
 }
 
-.card:hover {
+/* .card:hover {
     transform: translateY(-4px);
     box-shadow: var(--card-hover-shadow);
     border-color: rgba(225, 29, 72, 0.15);
-}
+} */
 
 .card-header {
     background-color: transparent;
