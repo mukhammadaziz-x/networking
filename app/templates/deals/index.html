@@ -4,15 +4,13 @@
 
 {% block page_title %}Deals Pipeline{% endblock %}
 
+{% block page_actions %}
+<a href="/deals/create" class="btn btn-primary">
+    <i class="bi bi-plus-lg me-2"></i> Add Deal
+</a>
+{% endblock %}
+
 {% block content %}
-<div class="row mb-4">
-    <div class="col-12 d-flex justify-content-between align-items-center">
-        <h4 class="text-secondary uppercase font-weight-700 m-0">Sales Opportunity Board</h4>
-        <a href="/deals/create" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-2"></i> Add Deal
-        </a>
-    </div>
-</div>
 
 <div class="kanban-board">
     {% for stage_key, stage_info in pipeline.items() %}

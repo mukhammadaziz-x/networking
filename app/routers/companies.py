@@ -137,6 +137,7 @@ def view_company_details(
             "current_user": current_user,
             "TaskStatus": TaskStatus,
             "TaskPriority": TaskPriority,
+            "CompanyStatus": CompanyStatus,
             "today": date.today()
         }
     )

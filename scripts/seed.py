@@ -115,7 +115,7 @@ def seed(db):
         industry="Retail",
         phone="123-456-7890",
         email="info@acme.com",
-        website="https://acme.com",
+        website="https://www.google.com",
         address="123 Industrial Way",
         city="Metropolis",
         country="USA",
@@ -127,7 +127,7 @@ def seed(db):
         industry="E-commerce",
         phone="555-0199",
         email="contact@globex.com",
-        website="https://globex.com",
+        website="https://www.wikipedia.org",
         address="456 Power Blvd",
         city="Cypress Creek",
         country="USA",
@@ -139,14 +139,50 @@ def seed(db):
         industry="Apparel",
         phone="888-234-5678",
         email="purchasing@initech.com",
-        website="https://initech.com",
+        website="https://www.microsoft.com",
         address="4120 Freemont Ave",
         city="Austin",
         country="USA",
         status=CompanyStatus.ACTIVE,
         owner_id=manager.id
     )
-    db.add_all([c1, c2, c3])
+    c4 = Company(
+        name="Google LLC",
+        industry="Technology",
+        phone="800-419-0157",
+        email="info@google.com",
+        website="https://www.google.com",
+        address="1600 Amphitheatre Pkwy",
+        city="Mountain View",
+        country="USA",
+        status=CompanyStatus.ACTIVE,
+        owner_id=sales_rep.id
+    )
+    c5 = Company(
+        name="Apple Inc.",
+        industry="Consumer Electronics",
+        phone="800-275-2273",
+        email="procurement@apple.com",
+        website="https://www.apple.com",
+        address="One Apple Park Way",
+        city="Cupertino",
+        country="USA",
+        status=CompanyStatus.ACTIVE,
+        owner_id=sales_rep.id
+    )
+    c6 = Company(
+        name="Nike, Inc.",
+        industry="Apparel & Footwear",
+        phone="800-806-6453",
+        email="buying@nike.com",
+        website="https://www.nike.com",
+        address="One Bowerman Drive",
+        city="Beaverton",
+        country="USA",
+        status=CompanyStatus.ACTIVE,
+        owner_id=manager.id
+    )
+    db.add_all([c1, c2, c3, c4, c5, c6])
     db.flush()
 
     # 4. Create Contacts

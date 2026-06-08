@@ -648,70 +648,74 @@ p, span, td, th, label, select, input, textarea {
 
 /* Status Badges */
 .badge {
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    padding: 0.4em 0.6em;
-}
-.badge-status-active {
-    background-color: rgba(40, 167, 69, 0.1);
-    color: #28a745;
-    border: 1px solid rgba(40, 167, 69, 0.2);
-}
-.badge-status-inactive {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
-    border: 1px solid rgba(220, 53, 69, 0.2);
-}
-.badge-status-prospect {
-    background-color: rgba(255, 193, 7, 0.1);
-    color: #ffc107;
-    border: 1px solid rgba(255, 193, 7, 0.2);
+    padding: 0.45em 0.85em;
+    border-radius: 9999px; /* Pill layout */
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
-/* Order Status Badges */
-.badge-order-draft {
-    background-color: rgba(108, 117, 125, 0.1);
-    color: #6c757d;
-    border: 1px solid rgba(108, 117, 125, 0.2);
+/* Fallback overrides for standard Bootstrap utility classes */
+.badge.bg-secondary {
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+.badge.bg-success {
+    background-color: #dcfce7 !important;
+    color: #16803d !important;
+    border: 1px solid #bbf7d0 !important;
+}
+.badge.bg-dark {
+    background-color: #f3e8ff !important;
+    color: #7e22ce !important;
+    border: 1px solid #e9d5ff !important;
+}
+.badge.bg-danger {
+    background-color: #fee2e2 !important;
+    color: #b91c1c !important;
+    border: 1px solid #fecaca !important;
+}
+.badge.bg-light {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+/* Specific CRM Badges */
+.badge-status-active, .badge-order-delivered {
+    background-color: #dcfce7;
+    color: #16803d;
+    border: 1px solid #bbf7d0;
+}
+.badge-status-inactive, .badge-order-cancelled {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+.badge-status-prospect, .badge-order-shipped, .badge-priority-medium {
+    background-color: #fef9c3;
+    color: #a16207;
+    border: 1px solid #fef08a;
 }
 .badge-order-confirmed {
-    background-color: rgba(0, 123, 255, 0.1);
-    color: #007bff;
-    border: 1px solid rgba(0, 123, 255, 0.2);
+    background-color: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
 }
-.badge-order-shipped {
-    background-color: rgba(255, 193, 7, 0.1);
-    color: #ffc107;
-    border: 1px solid rgba(255, 193, 7, 0.2);
+.badge-order-draft, .badge-priority-low {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
 }
-.badge-order-delivered {
-    background-color: rgba(40, 167, 69, 0.1);
-    color: #28a745;
-    border: 1px solid rgba(40, 167, 69, 0.2);
-}
-.badge-order-cancelled {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
-    border: 1px solid rgba(220, 53, 69, 0.2);
-}
-
-/* Priority Badges */
 .badge-priority-high {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
-    border: 1px solid rgba(220, 53, 69, 0.2);
-}
-.badge-priority-medium {
-    background-color: rgba(255, 193, 7, 0.1);
-    color: #ffc107;
-    border: 1px solid rgba(255, 193, 7, 0.2);
-}
-.badge-priority-low {
-    background-color: rgba(13, 202, 240, 0.1);
-    color: #0dcaf0;
-    border: 1px solid rgba(13, 202, 240, 0.2);
+    background-color: #ffedd5;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
 }
 
 /* Login Page Styling */
@@ -893,31 +897,31 @@ body.login-page::after {
 /* Activity timeline styling */
 .activity-timeline {
     position: relative;
-    padding-left: 1.5rem;
+    padding-left: 2rem;
 }
 .activity-timeline::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: 9px;
     top: 8px;
     bottom: 8px;
     width: 2px;
-    background-color: var(--light-bg-2);
+    background-color: var(--border-color);
 }
 .activity-item {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 .activity-dot {
     position: absolute;
-    left: calc(-1.5rem - 4px);
+    left: 5px;
     top: 6px;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: var(--border-color);
-    border: 2px solid var(--white);
-    box-shadow: 0 0 0 2px var(--light-bg-2);
+    background-color: var(--white);
+    border: 2px solid var(--primary-color);
+    z-index: 2;
 }
 .action-create {
     background-color: rgba(40, 167, 69, 0.1) !important;
