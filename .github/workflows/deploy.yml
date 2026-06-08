@@ -69,7 +69,30 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            # 1. Stop old containers in the previous deployment directory if running
+            if [ -d "/app/clothcrm" ]; then
+                echo "=== Stopping old containers in /app/clothcrm ==="
+                cd /app/clothcrm && docker compose -f docker-compose.prod.yml down || true
+            fi
+
+            # 2. Deploy and build in ~/networking
             cd ~/networking
+            echo "=== Git Status before pull ==="
+            git status
+            echo "=== Latest Commit before pull ==="
+            git log -n 1
+
+            echo "=== Pulling latest changes ==="
             git pull origin main
+
+            echo "=== Stopping current containers in ~/networking ==="
+            docker compose -f docker-compose.prod.yml down || true
+
+            echo "=== Building and starting new containers ==="
             docker compose -f docker-compose.prod.yml up -d --build
+
+            echo "=== Running migrations ==="
             docker compose -f docker-compose.prod.yml exec -T web alembic upgrade head
+
+            echo "=== Docker Containers Status ==="
+            docker ps -a
