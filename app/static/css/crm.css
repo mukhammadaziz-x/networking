@@ -195,7 +195,7 @@ p, span, td, th, label, select, input, textarea {
     flex-shrink: 0;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01);
     z-index: 1000;
-    width: 77%;
+    width: 100%;
 }
 
 .topbar .logo-text {
@@ -237,7 +237,7 @@ p, span, td, th, label, select, input, textarea {
 }
 
 .header-nav .nav-item {
-    font-size: 0.60rem;
+    font-size: 0.63rem;
     font-weight: 700;
     color: var(--text-secondary);
     text-decoration: none;
@@ -1040,11 +1040,11 @@ body.login-page::after {
     box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.02), 0 0 0 1px rgba(15, 23, 42, 0.03);
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s ease;
 }
-.kpi-card:hover {
+/* .kpi-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 20px -8px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
     border-color: rgba(225, 29, 72, 0.2);
-}
+} */
 .kpi-title {
     font-size: 0.7rem;
     text-transform: uppercase;
