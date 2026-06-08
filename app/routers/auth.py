@@ -27,6 +27,9 @@ def login(
     db: Session = Depends(get_db)
 ):
     """Authenticates the user and sets session details"""
+    # Clear any stale flash messages from the session first
+    request.session.pop("_flashes", None)
+    
     user = db.query(User).filter(User.email == email).first()
     
     if not user or not verify_password(password, user.password_hash):
