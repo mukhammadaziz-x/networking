@@ -69,6 +69,8 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
+
             # 1. Stop old containers in the previous deployment directory if running
             if [ -d "/app/clothcrm" ]; then
                 echo "=== Stopping old containers in /app/clothcrm ==="
@@ -77,6 +79,11 @@ jobs:
 
             # 2. Deploy and build in ~/networking
             cd ~/networking
+            
+            echo "=== Discarding any local modifications on the server ==="
+            git reset --hard
+            git clean -fd
+
             echo "=== Git Status before pull ==="
             git status
             echo "=== Latest Commit before pull ==="
